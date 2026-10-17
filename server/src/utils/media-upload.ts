@@ -5,7 +5,7 @@ import crypto from 'node:crypto';
 import {env} from '../config/env.js';
 
 const serverRoot=path.resolve(process.cwd(),'server');
-const persistentMediaRoot=process.platform==='linux' && process.env.HOME ? path.join(process.env.HOME,'domains','nftfusion.shop','public_html','media') : path.join(serverRoot,'uploads','public');
+const persistentMediaRoot=process.platform==='linux' && process.env.HOME ? path.join(process.env.HOME,'domains','nftloyal.shop','public_html','media') : path.join(serverRoot,'uploads','public');
 const configuredUpload=env.UPLOAD_DIR || 'uploads';
 const uploadRoot=path.isAbsolute(configuredUpload)
   ? configuredUpload
