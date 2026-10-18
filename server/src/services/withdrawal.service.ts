@@ -1,4 +1,4 @@
-﻿import {Withdrawal} from '../models/Withdrawal.js';
+import {Withdrawal} from '../models/Withdrawal.js';
 import {AdminSettings} from '../models/AdminSettings.js';
 import {Wallet} from '../models/Wallet.js';
 import {
@@ -38,7 +38,7 @@ export async function createWithdrawal(userId:any,input:any){
 
     const amount=money(Number(input.amount));
 
-    const minimum=Math.max(10,Number(settings?.minimumWithdrawal??10));
+    const minimum=Math.max(1,Number(settings?.minimumWithdrawal??1));
     const maximum=settings?.maximumWithdrawal??100000000;
 
     if(amount<minimum){
