@@ -143,7 +143,6 @@ function Deposit(){
           ''
         ),
         depositType:'package',
-        paymentMethod:'BEP20'
       }));
     }
   },[
@@ -161,7 +160,6 @@ function Deposit(){
         amount:String(pendingPackage.totalAmount??''),
         depositType:'package',
         packagePurchaseId:pendingPackage._id,
-        paymentMethod:'BEP20'
       }));
     }
   },[pendingPackage?._id,pendingPackage?.totalAmount]);
@@ -274,7 +272,7 @@ setBusy(true);
 
       setF({
         amount:'',
-        paymentMethod:'BEP20',
+        paymentMethod:activeDepositMethods[0]??'BEP20',
         reference:'',
         details:'',
         receipt:null,
@@ -320,90 +318,56 @@ setBusy(true);
       text="Send BEP20 / BNB Smart Chain funds and submit the transaction proof for administrator verification."
     />
 
-    {!bep20Address&&
+    {!activeDepositMethods.length&&
       <div className="alert">
-        Admin has not configured the BEP20 deposit address yet.
+        Admin has not configured any active payment method yet.
       </div>
     }
 
-    {bep20Address&&
+    {activeDepositMethods.includes(f.paymentMethod)&&
       <section className="panel">
         <div className="section-heading">
-          <span className="eyebrow">BEP20 PAYMENT ADDRESS</span>
-          <h2>Send funds to this address</h2>
+          <span className="eyebrow">PAYMENT DETAILS</span>
+          <h2>{f.paymentMethod}</h2>
         </div>
 
-        <div className="payment-detail-grid">
-          <div>
-            <span>Network</span>
-            <strong>{bep20Network}</strong>
-          </div>
+        {paymentTitle&&
+          <p><strong>Account title:</strong> {paymentTitle}</p>
+        }
 
-          <div>
-            <span>Asset</span>
-            <strong>BEP20 / BNB Smart Chain</strong>
-          </div>
-        </div>
+        {f.paymentMethod==='BEP20'&&
+          <p><strong>Network:</strong> {bep20Network}</p>
+        }
 
         <div style={{
-          display:'grid',
-          gridTemplateColumns:'minmax(180px,280px) 1fr',
-          gap:24,
-          alignItems:'center'
+          padding:16,
+          borderRadius:12,
+          background:'rgba(255,255,255,.05)',
+          wordBreak:'break-all',
+          marginBottom:12
         }}>
-          {bep20Address&&
-            <div style={{textAlign:'center'}}>
-              <QRCodeSVG
-                value={bep20Address}
-                size={240}
-                level="M"
-                includeMargin
-                aria-label="BEP20 deposit QR code"
-                style={{
-                  width:240,
-                  height:240,
-                  maxWidth:'100%',
-                  background:'#fff',
-                  padding:10,
-                  borderRadius:14
-                }}
-              />
-              <small className="muted">
-                Scan this QR code with your wallet.
-              </small>
-            </div>
-          }
-
-          <div>
-            <span className="eyebrow">WALLET ADDRESS</span>
-
-            <div style={{
-              wordBreak:'break-all',
-              fontFamily:'monospace',
-              padding:'14px',
-              borderRadius:12,
-              background:'rgba(255,255,255,.04)',
-              margin:'8px 0 12px'
-            }}>
-              {bep20Address}
-            </div>
-
-            <button type="button" onClick={copyAddress}>
-              Copy BEP20 address
-            </button>
-
-            <p className="muted">
-            </p>
-          </div>
+          <strong>{paymentNumber||'Payment details not configured'}</strong>
         </div>
+
+        {paymentNumber&&
+          <button
+            type="button"
+            onClick={()=>{
+              navigator.clipboard.writeText(paymentNumber);
+              setMsg(`${f.paymentMethod} payment details copied.`);
+            }}
+          >
+            Copy payment details
+          </button>
+        }
+
+        {f.paymentMethod==='BEP20'&&paymentNumber&&
+          <div style={{marginTop:20,textAlign:'center'}}>
+            <QRCodeSVG value={paymentNumber} size={200} level="M"/>
+          </div>
+        }
       </section>
     }
-
-    <section className="panel">
-      <h2>{f.paymentMethod} payment details</h2>
-      <p style={{wordBreak:'break-all'}}>{paymentNumber||'Not configured'}</p>
-      {paymentTitle&&<p>{paymentTitle}</p>}
-    </section>
     {pendingPackage&&
       <section className="panel">
         <span className="eyebrow">NFT PAYMENT PENDING</span>
@@ -439,7 +403,7 @@ setBusy(true);
 
       <p>
         {settings?.paymentDetails?.instructions||
-          'Send the exact amount to the BEP20 address, then submit your transaction reference and receipt below.'}
+          'Send the exact amount using your selected payment method, then submit your reference and payment receipt below.'}
       </p>
 
       <small>
@@ -530,7 +494,7 @@ setBusy(true);
 
       <button
         className="primary"
-        disabled={busy||(f.paymentMethod==="BEP20"&&(!bep20||!bep20Address))}
+        disabled={busy||!activeDepositMethods.includes(f.paymentMethod)||!paymentNumber}
       >
         {busy
           ?'Submitting...'
