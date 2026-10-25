@@ -101,6 +101,30 @@ function Deposit(){
   const bep20=settings?.paymentDetails?.bep20Active!==false;
   const bep20Address=String(settings?.paymentDetails?.bep20Address??'').trim();
   const bep20Network=settings?.paymentDetails?.bep20Network??'BEP20 / BNB Smart Chain';
+  const pd=settings?.paymentDetails??{};
+  const activeDepositMethods=[
+    ...(pd.bep20Active!==false&&pd.bep20Address?['BEP20']:[]),
+    ...(pd.jazzCashActive!==false&&pd.jazzCashNumber?['JazzCash']:[]),
+    ...(pd.easypaisaActive!==false&&pd.easypaisaNumber?['Easypaisa']:[]),
+    ...(Array.isArray(pd.customMethods)?pd.customMethods.filter((m:any)=>m.active!==false&&m.name&&m.number).map((m:any)=>String(m.name).trim()):[])
+  ];
+  const customMethod=Array.isArray(pd.customMethods)?pd.customMethods.find((m:any)=>m.name===f.paymentMethod):null;
+  const paymentNumber=String(
+    f.paymentMethod==='BEP20'?pd.bep20Address:
+    f.paymentMethod==='JazzCash'?pd.jazzCashNumber:
+    f.paymentMethod==='Easypaisa'?pd.easypaisaNumber:
+    customMethod?.number??''
+  ).trim();
+  const paymentTitle=String(
+    f.paymentMethod==='JazzCash'?pd.jazzCashTitle:
+    f.paymentMethod==='Easypaisa'?pd.easypaisaTitle:
+    customMethod?.title??''
+  ).trim();
+  useEffect(()=>{
+    if(activeDepositMethods.length&&!activeDepositMethods.includes(f.paymentMethod)){
+      setF((x:any)=>({...x,paymentMethod:activeDepositMethods[0]}));
+    }
+  },[activeDepositMethods.join('|'),f.paymentMethod]);
 
   const pendingPackage=purchases?.find(
     (p:any)=>p._id===f.packagePurchaseId&&p.status==='pending'
@@ -168,13 +192,12 @@ const submit=async(e:FormEvent)=>{
       return;
     }
 
-    if(!bep20){
-      setMsg('BEP20 deposits are currently unavailable.');
+    if(!activeDepositMethods.includes(f.paymentMethod)){
+      setMsg('Selected payment method is unavailable.');
       return;
     }
-
-    if(!bep20Address){
-      setMsg('Admin has not configured the BEP20 deposit address yet.');
+    if(!paymentNumber){
+      setMsg('Admin has not configured this payment method.');
       return;
     }
 setBusy(true);
@@ -184,7 +207,7 @@ setBusy(true);
       const body=new FormData();
 
       body.append('amount',f.amount);
-      body.append('paymentMethod','BEP20');
+      body.append('paymentMethod',f.paymentMethod);
       body.append('reference',f.reference);
       body.append('details',f.details);
       body.append('depositType',f.depositType);
@@ -293,7 +316,7 @@ setBusy(true);
 
   return <Shell>
     <PageTitle
-      title="BEP20 Deposit"
+      title="Deposit"
       text="Send BEP20 / BNB Smart Chain funds and submit the transaction proof for administrator verification."
     />
 
@@ -376,6 +399,11 @@ setBusy(true);
       </section>
     }
 
+    <section className="panel">
+      <h2>{f.paymentMethod} payment details</h2>
+      <p style={{wordBreak:'break-all'}}>{paymentNumber||'Not configured'}</p>
+      {paymentTitle&&<p>{paymentTitle}</p>}
+    </section>
     {pendingPackage&&
       <section className="panel">
         <span className="eyebrow">NFT PAYMENT PENDING</span>
@@ -459,11 +487,11 @@ setBusy(true);
           onChange={e=>setF({...f,paymentMethod:e.target.value})}
         >
           
-          <option value="BEP20">BEP20</option>
+          {activeDepositMethods.map((method:string)=><option key={method} value={method}>{method}</option>)}
         </select>
       </label>
 
-      {f.paymentMethod==='BEP20'&&(<label>
+      {f.paymentMethod!=='WALLET'&&(<label>
         Transaction / reference ID
         <input
           required
@@ -473,7 +501,7 @@ setBusy(true);
         />
       </label>)}
 
-      {f.paymentMethod==='BEP20'&&(<label>
+      {f.paymentMethod!=='WALLET'&&(<label>
         Transaction details
         <textarea
           placeholder="Optional BEP20 transaction details"
@@ -482,7 +510,7 @@ setBusy(true);
         />
       </label>)}
 
-      {f.paymentMethod==='BEP20'&&(<label>
+      {f.paymentMethod!=='WALLET'&&(<label>
         Payment receipt / proof
         <input
           required
@@ -506,7 +534,7 @@ setBusy(true);
       >
         {busy
           ?'Submitting...'
-          :f.paymentMethod==='WALLET'?'Pay':'Submit BEP20 proof'}
+          :f.paymentMethod==='WALLET'?'Pay':'Submit payment proof'}
       </button>
 
       {msg&&<div className="notice">{msg}</div>}

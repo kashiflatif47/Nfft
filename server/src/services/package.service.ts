@@ -1,4 +1,4 @@
-﻿import {ensureWallet} from './ledger.service.js';
+import {ensureWallet} from './ledger.service.js';
 import {createCommissions} from './referral.service.js';
 import {Transaction} from '../models/Transaction.js';
 import {Wallet} from '../models/Wallet.js';
@@ -90,11 +90,23 @@ export async function purchasePackage(
 
     const pd:any=settings?.paymentDetails??{};
 
-    if(paymentMethod==='BEP20'&&pd.bep20Active===false){
-      throw new AppError(
-        403,
-        'BEP20 package deposits are currently unavailable'
-      );
+    const method=String(paymentMethod??'').trim();
+
+    const custom=Array.isArray(pd.customMethods)
+      ?pd.customMethods.find((m:any)=>String(m.name??'').trim()===method)
+      :null;
+
+    const allowed=
+      method==='BEP20'
+        ?pd.bep20Active!==false&&!!String(pd.bep20Address??'').trim()
+        :method==='JazzCash'
+          ?pd.jazzCashActive!==false&&!!String(pd.jazzCashNumber??'').trim()
+          :method==='Easypaisa'
+            ?pd.easypaisaActive!==false&&!!String(pd.easypaisaNumber??'').trim()
+            :!!custom&&custom.active!==false&&!!String(custom.number??'').trim();
+
+    if(!allowed){
+      throw new AppError(403,'Selected package payment method is unavailable');
     }
 
     const unit=money(
