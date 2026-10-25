@@ -621,7 +621,7 @@ setBusy(true);
     settings?.withdrawalsEnabled===false;
 
   const isBep20=
-    f.paymentMethod==='BEP20';
+    true;
 
   const submit=async(e:FormEvent)=>{
     e.preventDefault();

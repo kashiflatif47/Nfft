@@ -61,99 +61,38 @@ export async function createWithdrawal(userId:any,input:any){
 
     const pd:any=settings?.paymentDetails??{};
 
-    /*
-     * BEP20 is member-entered.
-     * Legacy methods still use the verified saved account.
-     */
-    let paymentAccount='';
+    const paymentAccount=String(input.paymentAccount??'').trim();
+
+    if(!paymentAccount || paymentAccount.length>120){
+      throw new AppError(422,'Enter a valid receiving account number or address');
+    }
 
     if(method==='BEP20'){
       if(pd.bep20Active===false){
-        throw new AppError(
-          403,
-          'BEP20 withdrawals are currently unavailable'
-        );
+        throw new AppError(403,'BEP20 withdrawals are currently unavailable');
       }
-
-      paymentAccount=String(
-        input.paymentAccount??''
-      ).trim();
-
-      if(paymentAccount.length<10){
-        throw new AppError(
-          422,
-          'A valid BEP20 withdrawal address is required'
-        );
+      if(!/^0x[a-fA-F0-9]{40}$/.test(paymentAccount)){
+        throw new AppError(422,'Enter a valid BEP20 wallet address');
       }
-
-      if(paymentAccount.length>120){
-        throw new AppError(
-          422,
-          'BEP20 withdrawal address is too long'
-        );
+    }else if(method==='JazzCash'){
+      if(pd.jazzCashActive===false){
+        throw new AppError(403,'JazzCash withdrawals are currently unavailable');
+      }
+    }else if(method==='Easypaisa'){
+      if(pd.easypaisaActive===false){
+        throw new AppError(403,'Easypaisa withdrawals are currently unavailable');
       }
     }else{
-      const user=await User.findById(userId)
-        .select('paymentDetails withdrawalCooldownUntil')
-        .session(session);
+      const custom=Array.isArray(pd.customMethods)
+        ?pd.customMethods.find(
+          (m:any)=>String(m.name??'').trim()===method
+        )
+        :null;
 
-      if(!user){
-        throw new AppError(404,'Account not found');
-      }
-
-      let saved='';
-
-      if(method==='JazzCash'){
-        if(pd.jazzCashActive===false){
-          throw new AppError(
-            403,
-            'JazzCash withdrawals are currently unavailable'
-          );
-        }
-
-        saved=user.paymentDetails?.jazzCash??'';
-      }else if(method==='Easypaisa'){
-        if(pd.easypaisaActive===false){
-          throw new AppError(
-            403,
-            'Easypaisa withdrawals are currently unavailable'
-          );
-        }
-
-        saved=user.paymentDetails?.easypaisa??'';
-      }else{
-        const custom=Array.isArray(pd.customMethods)
-          ?pd.customMethods.find(
-            (m:any)=>String(m.name??'').trim()===method
-          )
-          :null;
-
-        if(!custom||custom.active===false){
-          throw new AppError(
-            403,
-            'This withdrawal method is currently unavailable'
-          );
-        }
-
-        saved=(
-          Array.isArray(user.paymentDetails?.customMethods)
-            ?user.paymentDetails.customMethods.find(
-              (m:any)=>String(m.name??'').trim()===method
-            )?.number
-            :''
-        )??'';
-      }
-
-      paymentAccount=decryptField(saved);
-
-      if(!paymentAccount){
-        throw new AppError(
-          422,
-          'A verified payment account is required'
-        );
+      if(!custom || custom.active===false){
+        throw new AppError(403,'This withdrawal method is currently unavailable');
       }
     }
-
     /*
      * Validate balance BEFORE changing cooldown.
      * This prevents failed withdrawal requests from consuming cooldown.
