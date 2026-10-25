@@ -234,7 +234,7 @@ setBusy(true);
 
         packageBody.append(
           'paymentMethod',
-          'BEP20'
+          f.paymentMethod
         );
 
         packageBody.append(
