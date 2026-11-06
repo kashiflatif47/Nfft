@@ -535,3 +535,322 @@
 @media(max-width:600px){.legal-page{padding:22px 18px;margin-top:18px}.site-footer{padding-bottom:100px}.site-footer-links{gap:10px 16px}}
 
 .password-toggle svg{width:20px;height:20px;display:block}
+
+/* =========================================
+   CAPITALXY GOLDEN MAROON THEME
+   ========================================= */
+
+:root {
+  color-scheme: dark;
+  --navy: #260800;
+  --blue: #681600;
+  --gold: #ffca28;
+  --panel: #421000;
+  --line: #d78b20;
+  --muted: #e8c6a2;
+  --deep: #210600;
+  --royal: #791900;
+  --light: #ffb52e;
+  --nft-glow: 0 0 18px #ffb00055, 0 0 38px #ff8c0030;
+}
+
+html {
+  background: #210600;
+}
+
+body {
+  color: #fff3df;
+  background:
+    radial-gradient(ellipse at 50% 0%, #a33b08 0%, transparent 48%),
+    radial-gradient(ellipse at 0% 80%, #8c2600 0%, transparent 40%),
+    linear-gradient(145deg, #260600, #4b1000 48%, #210500);
+  background-attachment: fixed;
+}
+
+.shell {
+  background: transparent;
+}
+
+.shell header {
+  background: rgba(37, 7, 0, .94);
+  border-bottom: 1px solid #d89528;
+  box-shadow: 0 5px 25px #0008;
+  backdrop-filter: blur(16px);
+}
+
+.back,
+.brand {
+  color: #fff2d5;
+}
+
+.back span,
+.brand span {
+  color: #ffca28;
+}
+
+.content {
+  position: relative;
+}
+
+.auth {
+  background:
+    radial-gradient(ellipse at 50% 15%, #a33d08 0%, transparent 52%),
+    linear-gradient(145deg, #270600, #591300 55%, #260500);
+  padding: 24px;
+}
+
+.auth-card {
+  background: linear-gradient(145deg, #6a1c00, #390900 65%, #701b00);
+  border: 2px solid #ffca28;
+  border-radius: 34px;
+  box-shadow:
+    0 0 12px #ffce39,
+    0 0 35px #ffae0080,
+    inset 0 0 30px #ff9c001c,
+    0 25px 80px #0009;
+}
+
+.auth h1 {
+  color: #fff4dc;
+  font-weight: 800;
+}
+
+.auth input,
+.form input,
+.form select,
+.form textarea {
+  background: #400d00;
+  color: #fff5e5;
+  border: 1.5px solid #d9952b;
+  border-radius: 15px;
+}
+
+.auth input {
+  min-height: 58px;
+}
+
+.auth input:focus,
+.form input:focus,
+.form select:focus,
+.form textarea:focus {
+  border-color: #ffdc54;
+  box-shadow: 0 0 0 2px #ffb00040, 0 0 22px #ffb00055;
+}
+
+.primary,
+button.primary,
+.auth button[type="submit"] {
+  background: linear-gradient(110deg, #ffed75 0%, #ffad00 35%, #f36b00 70%, #ffba19 100%);
+  color: #fff;
+  border: 2px solid #fff0a0;
+  border-radius: 16px;
+  font-weight: 900;
+  box-shadow: 0 0 12px #ffca38, 0 0 28px #ff9d0080;
+  text-shadow: 0 2px 3px #792500;
+  transition: .2s ease;
+}
+
+.primary:hover,
+button.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 18px #ffdc58, 0 0 40px #ff8c00a0;
+}
+
+.link-btn,
+.header-link,
+.gold-link,
+.back-link {
+  color: #ffda68;
+}
+
+.hero {
+  background: linear-gradient(135deg, #8a2900, #4a1000 65%, #721c00);
+  border: 1px solid #e4a12d;
+  box-shadow: var(--nft-glow);
+}
+
+.hero h1,
+.page-title h1 {
+  color: #fff0d6;
+}
+
+.card,
+.panel,
+.member-id,
+.modal {
+  background: linear-gradient(145deg, #581600, #330900);
+  border: 1px solid #b97822;
+  box-shadow: 0 12px 35px #0005, inset 0 0 15px #ffb0000a;
+  color: #fff0dd;
+}
+
+.card:before {
+  background: linear-gradient(#fff18a, #ff9000);
+  box-shadow: 0 0 12px #ffb000;
+}
+
+.card strong,
+.package strong {
+  color: #ffcf48;
+}
+
+.card span,
+.member-id small,
+.muted {
+  color: #eac9a5;
+}
+
+.package {
+  background: linear-gradient(145deg, #681a00, #320900);
+  border: 1px solid #d9932b;
+  box-shadow: 0 12px 35px #0006, 0 0 12px #ff9d001a;
+}
+
+.package:hover {
+  border-color: #ffdb57;
+  box-shadow: 0 0 22px #ffad0055;
+}
+
+.package-art {
+  background: radial-gradient(circle at 40% 20%, #e77b0b, #721a00 75%);
+  color: #ffe17a;
+  border: 1px solid #e7ad35;
+}
+
+.banner-carousel,
+.banner {
+  background: linear-gradient(135deg, #851f00, #380a00);
+  border-color: #d9952b;
+}
+
+.banner-fallback {
+  background: radial-gradient(circle at 30% 20%, #a94108, #320800);
+  color: #ffcf4d;
+}
+
+.actions a {
+  background: linear-gradient(145deg, #681900, #350900);
+  border: 1px solid #d9952b;
+  color: #fff0d7;
+  box-shadow: 0 5px 18px #0004;
+}
+
+.actions a:hover {
+  background: linear-gradient(145deg, #a43800, #571100);
+  border-color: #ffda55;
+  color: #ffe28b;
+  box-shadow: 0 0 16px #ffac0055;
+}
+
+.deposit-method {
+  background: linear-gradient(145deg, #741e00, #380a00);
+  border-color: #d9952b;
+  box-shadow: var(--nft-glow);
+}
+
+.payment-instructions,
+.settings-box,
+.upload-preview {
+  background: #3c0c00;
+  border-color: #a9681d;
+}
+
+.withdrawal-rules span,
+.withdrawal-preview > div,
+.payment-detail-grid > div {
+  background: #4a1000;
+  border-color: #b97926;
+}
+
+.bottom {
+  background: rgba(38, 7, 0, .97);
+  border-top: 1px solid #d9952b;
+  box-shadow: 0 -5px 25px #0007;
+  backdrop-filter: blur(15px);
+}
+
+.bottom a {
+  color: #f5d9ad;
+}
+
+.bottom a:hover {
+  color: #ffdc55;
+}
+
+.modal-backdrop {
+  background: #160400d9;
+}
+
+.modal {
+  border: 1.5px solid #ffca28;
+  box-shadow: 0 0 30px #ffae0055;
+}
+
+.notice {
+  background: #542000;
+  border-color: #d9952b;
+  color: #ffe6c1;
+}
+
+.alert {
+  background: #751900;
+  border: 1px solid #ff7043;
+}
+
+.form label,
+.deposit-form label,
+.withdrawal-form label {
+  color: #ffe4bd;
+}
+
+.settings-form h2,
+.section-heading h2,
+.form-heading h2 {
+  color: #ffdb76;
+}
+
+.list .row {
+  border-bottom-color: #d9952b30;
+}
+
+.list .row button {
+  background: #691900;
+  border-color: #d9952b;
+}
+
+button:not(.primary):hover {
+  border-color: #ffcf4b;
+}
+
+input,
+select,
+textarea {
+  accent-color: #ffb000;
+}
+
+::selection {
+  background: #ffb000;
+  color: #310900;
+}
+
+@media(max-width:760px) {
+  .auth {
+    padding: 15px;
+  }
+
+  .auth-card {
+    border-radius: 27px;
+    padding: 23px;
+  }
+
+  .hero,
+  .card,
+  .panel,
+  .package {
+    border-color: #bd7a24;
+  }
+
+  .bottom {
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+  }
+}
