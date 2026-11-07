@@ -854,3 +854,329 @@ textarea {
     padding-bottom: max(10px, env(safe-area-inset-bottom));
   }
 }
+
+/* =========================================
+   ZIVOPLUS GLOBAL GOLD THEME OVERRIDES
+   ========================================= */
+
+:root {
+  color-scheme: dark;
+  --navy: #260800;
+  --blue: #681600;
+  --gold: #ffca28;
+  --panel: #421000;
+  --line: #d78b20;
+  --muted: #e8c6a2;
+  --deep: #210600;
+  --royal: #791900;
+  --light: #ffb52e;
+}
+
+.capital-highlight,
+.security-note,
+.details,
+.actions,
+.notification-history,
+.site-disclaimer,
+.legal-page {
+  background: linear-gradient(145deg, #581600, #330900) !important;
+  border-color: #b97822 !important;
+  color: #fff0dd !important;
+}
+
+.capital-highlight {
+  box-shadow: var(--nft-glow);
+}
+
+.details .row strong,
+.site-disclaimer strong {
+  color: #fff4dc !important;
+}
+
+.support-message.member {
+  background: linear-gradient(145deg, #681900, #400d00) !important;
+  color: #fff0dd !important;
+  border-color: #d9952b !important;
+}
+
+.support-message.admin {
+  background: linear-gradient(145deg, #8a2900, #4a1000) !important;
+  color: #fff0dd !important;
+  border-color: #e4a12d !important;
+}
+
+.support-conversation:hover,
+.support-conversation.selected {
+  background: linear-gradient(145deg, #741e00, #380a00) !important;
+  border-color: #ffca28 !important;
+  color: #fff0dd !important;
+}
+
+.banner-empty {
+  background: linear-gradient(145deg, #581600, #330900) !important;
+  border-color: #d9952b !important;
+  color: #fff0dd !important;
+}
+
+.banner-empty span,
+.security-note,
+.legal-intro,
+.legal-section p {
+  color: #e8c6a2 !important;
+}
+
+.notification-history {
+  border-color: #d78b20 !important;
+}
+
+.notification-history .row:hover {
+  background: rgba(255, 176, 0, .08) !important;
+}
+
+.bottom {
+  background: rgba(38, 7, 0, .97) !important;
+  border-color: #d9952b !important;
+}
+
+.bottom a {
+  color: #f5d9ad !important;
+}
+
+.bottom a:hover,
+.bottom a.active {
+  color: #ffdc55 !important;
+}
+
+.site-disclaimer {
+  border-color: #d9952b !important;
+}
+
+.legal-page {
+  border-color: #d9952b !important;
+}
+
+.card:hover,
+.package:hover {
+  border-color: #ffdb57 !important;
+}
+
+.actions a:hover {
+  background: linear-gradient(145deg, #a43800, #571100) !important;
+  border-color: #ffda55 !important;
+  color: #ffe28b !important;
+}
+
+button:not(.primary):hover {
+  border-color: #ffcf4b;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #ffdc54 !important;
+  box-shadow: 0 0 0 2px #ffb00040 !important;
+}
+
+::selection {
+  background: #ffb000;
+  color: #310900;
+}
+
+
+/* ZIVOPLUS MAROON BACKGROUND ONLY PATCH */
+.capital-highlight,
+.security-note,
+.details,
+.actions,
+.notification-history,
+.site-disclaimer,
+.legal-page {
+    background: linear-gradient(135deg, #260800, #421000 55%, #681600) !important;
+    border-color: #d78b20 !important;
+}
+
+.support-message.member {
+    background: #421000 !important;
+    border-color: #d78b20 !important;
+}
+
+.support-message.admin {
+    background: #681600 !important;
+    border-color: #d78b20 !important;
+}
+
+.support-conversation:hover,
+.support-conversation.selected {
+    background: #421000 !important;
+    border-color: #ffb52e !important;
+}
+
+.capital-highlight,
+.security-note,
+.details,
+.actions,
+.notification-history,
+.site-disclaimer,
+.legal-page,
+.support-message.member,
+.support-message.admin,
+.support-conversation:hover,
+.support-conversation.selected {
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.22) !important;
+}
+/* END ZIVOPLUS MAROON BACKGROUND ONLY PATCH */
+
+
+/* ZIVOPLUS COMPLETE MAROON BACKGROUND PATCH */
+
+:root {
+    --navy: #260800;
+    --blue: #681600;
+    --deep: #210600;
+    --royal: #791900;
+    --panel: #421000;
+    --line: #d78b20;
+    --gold: #ffca28;
+    --light: #ffb52e;
+    --muted: #e8c6a2;
+}
+
+html,
+body {
+    background: #210600 !important;
+}
+
+body {
+    background: radial-gradient(circle at 20% 0, #681600 0, #260800 45%, #210600 100%) !important;
+}
+
+.auth-card,
+.card,
+.panel,
+.package,
+.modal,
+.settings-box,
+.upload-preview,
+.member-id,
+.form input,
+.form select,
+.form textarea,
+.auth input {
+    background: #421000 !important;
+    border-color: #d78b20 !important;
+}
+
+.auth input,
+.form input,
+.form select,
+.form textarea,
+.upload-preview {
+    background: #260800 !important;
+}
+
+.shell header,
+.bottom {
+    background: #260800 !important;
+    border-color: #d78b20 !important;
+}
+
+.hero,
+.banner,
+.banner-carousel,
+.deposit-method,
+.capital-highlight,
+.security-note,
+.details,
+.actions,
+.notification-history,
+.site-disclaimer,
+.legal-page,
+.banner-empty {
+    background: linear-gradient(135deg, #260800, #421000 55%, #681600) !important;
+    border-color: #d78b20 !important;
+}
+
+.package-art,
+.banner-media,
+.banner-fallback,
+.banner-controls,
+.banner-controls > button,
+.actions a,
+.list .row button,
+.notice {
+    background: #681600 !important;
+    border-color: #d78b20 !important;
+}
+
+.banner-fallback {
+    background: radial-gradient(circle at 30% 20%, #791900, #260800) !important;
+}
+
+.support-message.member {
+    background: #421000 !important;
+    border-color: #d78b20 !important;
+}
+
+.support-message.admin {
+    background: #681600 !important;
+    border-color: #d78b20 !important;
+}
+
+.support-conversation:hover,
+.support-conversation.selected {
+    background: #421000 !important;
+    border-color: #ffb52e !important;
+}
+
+.bottom a {
+    color: #e8c6a2 !important;
+}
+
+.bottom a:hover {
+    color: #ffca28 !important;
+}
+
+/* END ZIVOPLUS COMPLETE MAROON BACKGROUND PATCH */
+
+
+/* ZIVOPLUS FINAL BLUE BACKGROUND OVERRIDES */
+
+.member-id {
+    background: #421000 !important;
+    border-color: #d78b20 !important;
+}
+
+.banner-carousel {
+    background: linear-gradient(135deg, #260800, #421000 55%, #681600) !important;
+    border-color: #d78b20 !important;
+}
+
+.banner-media.broken {
+    background: radial-gradient(circle at 30% 20%, #791900, #260800) !important;
+}
+
+.actions a:hover {
+    background: #791900 !important;
+    border-color: #ffb52e !important;
+}
+
+.actions a {
+    background: #681600 !important;
+}
+
+.banner-controls {
+    background: #421000 !important;
+}
+
+.banner-controls > button {
+    background: #681600 !important;
+}
+
+/* END ZIVOPLUS FINAL BLUE BACKGROUND OVERRIDES */
+
+
+/* ZIVOPLUS BANNER MEDIA FINAL FIX */
+.banner-media {
+    background: #260800 !important;
+}
+/* END ZIVOPLUS BANNER MEDIA FINAL FIX */
