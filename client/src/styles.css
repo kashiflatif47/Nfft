@@ -1242,3 +1242,25 @@ body {
 }
 
 /* END FINAL ORIGINAL GOLDEN MAROON THEME OVERRIDE */
+
+/* FINAL BODY THEME OVERRIDE */
+html,
+body,
+#root {
+    min-height: 100%;
+    background: #210600 !important;
+}
+
+body {
+    color: #fff3df !important;
+    background:
+        radial-gradient(ellipse at 50% 0%, #a33b08 0%, transparent 48%),
+        radial-gradient(ellipse at 0% 80%, #8c2600 0%, transparent 40%),
+        linear-gradient(135deg, #260800, #210600 75%) !important;
+}
+
+.shell {
+    min-height: 100vh;
+    background: transparent !important;
+}
+/* END FINAL BODY THEME OVERRIDE */
