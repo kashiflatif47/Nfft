@@ -1,4 +1,4 @@
-﻿import {beforeAll,afterAll,describe,it,expect,vi} from 'vitest';
+import {beforeAll,afterAll,describe,it,expect,vi} from 'vitest';
 vi.setConfig({testTimeout:20000});
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
@@ -39,7 +39,7 @@ describe('real MongoDB platform E2E',()=>{
     a=await register('membera');b=await register('memberb',a.user.referralCode);c=await register('memberc',b.user.referralCode);d=await register('memberd',c.user.referralCode);
   },30000);
 
-  it('creates the AÃ¢â€ â€™BÃ¢â€ â€™CÃ¢â€ â€™D referral chain',async()=>{
+  it('creates the A→B→C→D referral chain',async()=>{
     const rows=await User.find({username:{$in:['membera','memberb','memberc','memberd']}}).lean();
     const map=new Map(rows.map(x=>[x.username,x]));
     expect(map.get('memberb')!.uplinerId!.toString()).toBe(map.get('membera')!._id.toString());
