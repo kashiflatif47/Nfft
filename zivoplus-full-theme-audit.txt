@@ -1,0 +1,504 @@
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\App.tsx:75
+function NotificationPopup({note}:{note:any}){const [open,setOpen]=useState(true);const [busy,setBusy]=useState(false);if(!open)return null;const close=async(dismiss:boolean)=>{setBusy(true);try{await api.post(`/content/notifications/${note._id}/${dismiss?'dismiss':'read'}`);setOpen(false)}catch{setOpen(false)}finally{setBusy(false)}};return <div className="modal-backdrop"><div className={`modal notification-modal notification-${note.type??'info'}`} style={{borderTopColor:note.color??'#D4AF37'}}><span className="eyebrow">{note.type??'NOTICE'}</span><h2>{note.title}</h2><p>{note.message}</p><div className="modal-actions"><button className="primary" disabled={busy} onClick={()=>close(!!note.dismissible)}>{busy?'Saving...':note.dismissible?'Dismiss':'Mark as read'}</button></div></div></div>}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\App.tsx:345
+background:'rgba(255,255,255,.05)',
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\App.tsx:3057
+const blank={title:'',message:'',type:'info',color:'#D4AF37',active:true,startAt:'',endAt:'',frequency:'once',repeatIntervalHours:24,dismissible:true};
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\App.tsx:3077
+{loading?<p>Loading...</p>:error?<div className="alert">{error}</div>:<section className="panel list"><h2>Notifications</h2>{data?.length?(data.map((n:any)=><div className="row" key={n._id}><span><strong>{n.title}</strong><br/><small>{n.message}</small></span><span>{n.status}</span><span>{n.frequency}</span><span><button onClick={()=>{setEditing(n);setForm({title:n.title,message:n.message,type:n.type??'info',color:n.color??'#D4AF37',active:n.active,startAt:n.startAt?new Date(n.startAt).toISOString().slice(0,16):'',endAt:n.endAt?new Date(n.endAt).toISOString().slice(0,16):'',frequency:n.frequency,repeatIntervalHours:n.repeatIntervalHours??24,dismissible:n.dismissible!==false})}}>Edit</button><button disabled={busy===n._id} onClick={()=>status(n)}>{n.active?'Deactivate':'Activate'}</button><button disabled={busy===n._id} onClick={()=>remove(n)}>Delete</button></span></div>)):<p className="muted">No notifications found.</p>}</section>}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:1
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#eef4ff;background:#071737;--navy:#071737;--blue:#123e8c;--gold:#e8bd58;--panel:#0d2451;--line:#244a83;--muted:#a8b8d5}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% 0,#123777 0,#071737 45%);min-height:100vh}button,input,select,textarea{font:inherit}button{cursor:pointer}.auth{min-height:100vh;display:grid;place-items:center;padding:20px}.auth-card{width:min(430px,100%);background:rgba(13,36,81,.96);border:1px solid var(--line);border-radius:24px;padding:32px;box-shadow:0 24px 80px #0005}.brand{font-weight:900;letter-spacing:.12em;color:white}.brand span,.back span{color:var(--gold);margin-left:6px}.auth h1{font-size:32px;margin:40px 0 6px}.muted,.page-title p{color:var(--muted);line-height:1.6}.auth form,.form{display:grid;gap:12px;margin-top:24px}.auth input,.form input,.form select,.form textarea{background:#071a3a;border:1px solid var(--line);color:white;border-radius:12px;padding:14px 15px;outline:none}.form textarea{min-height:100px}.auth input:focus,.form input:focus,.form select:focus,.form textarea:focus{border-color:var(--gold)}.primary{border:0;border-radius:12px;padding:14px;background:linear-gradient(135deg,#f2cc72,#c99732);color:#071737;font-weight:800}.link-btn{border:0;background:none;color:var(--gold);margin-top:18px}.alert{background:#6e2632;padding:10px 12px;border-radius:10px;margin-top:18px}.notice{background:#173b6f;border:1px solid #2f65aa;padding:13px 15px;border-radius:12px;margin:18px 0}.shell{min-height:100vh}.shell header{height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 5%;border-bottom:1px solid var(--line);background:#071737e8;backdrop-filter:blur(12px);position:sticky;top:0;z-index:5}.back{color:white;text-decoration:none;font-weight:900;letter-spacing:.12em}.shell header button{border:1px solid var(--line);background:transparent;color:white;border-radius:9px;padding:9px 13px}.content{width:min(1120px,92%);margin:0 auto;padding:34px 0 100px}.hero{display:flex;justify-content:space-between;gap:24px;align-items:center;background:linear-gradient(135deg,#123c86,#0d2451);border:1px solid var(--line);border-radius:24px;padding:32px}.hero h1,.page-title h1{margin:8px 0;font-size:38px}.member-id{background:#071a3a;border:1px solid var(--line);padding:16px 20px;border-radius:16px;display:grid;gap:8px;min-width:180px}.member-id small{color:var(--muted)}.member-id button{background:none;border:0;color:var(--gold);padding:0;text-align:left}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:20px 0}.card,.panel{background:rgba(13,36,81,.92);border:1px solid var(--line);border-radius:18px;padding:22px}.card{display:grid;gap:10px}.card span{color:var(--muted);font-size:14px}.card strong{font-size:25px}.panel-head{display:flex;justify-content:space-between;align-items:center}.panel-head a{color:var(--gold)}.actions{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.page-title{margin-bottom:22px}.eyebrow{font-size:12px;letter-spacing:.15em;color:var(--gold);font-weight:800}.banner-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}.banner{background:linear-gradient(135deg,#173e82,#0d2451);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:6px}.package-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.package{background:rgba(13,36,81,.95);border:1px solid var(--line);border-radius:18px;padding:18px;display:grid;gap:12px}.package-art{height:150px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,#1a4eaa,#10295b);font-size:36px;font-weight:900;color:#f3ce72}.package p{color:var(--muted);min-height:48px}.package strong{font-size:28px}.team-columns{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.row{display:grid;grid-template-columns:1fr auto;gap:12px;padding:13px 0;border-bottom:1px solid #ffffff12}.row:last-child{border-bottom:0}.row small{color:var(--muted)}.list{margin-top:18px}.list .row{grid-template-columns:repeat(4,1fr)}.bottom{position:fixed;bottom:0;left:0;right:0;display:grid;grid-template-columns:repeat(6,1fr);background:#071737f2;border-top:1px solid var(--line);padding:10px 4px;z-index:10}.bottom a{color:#dbe7ff;text-decoration:none;text-align:center;font-size:12px}.bottom a:hover{color:var(--gold)}@media(max-width:760px){.auth-card{padding:24px}.hero{display:grid;padding:24px}.hero h1,.page-title h1{font-size:28px}.grid{grid-template-columns:repeat(2,1fr)}.team-grid,.team-columns,.package-grid,.banner-strip{grid-template-columns:1fr}.bottom{display:grid}.content{padding-bottom:100px}.card{padding:16px}.list .row{grid-template-columns:1fr 1fr;font-size:13px}}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:2
+:root{--royal:#123C8C;--deep:#081B3A;--gold:#D4AF37;--light:#5DADE2}.header-link,.gold-link,.back-link{color:var(--gold);text-decoration:none}.head-actions{display:flex;gap:12px;align-items:center}.payment-instructions{display:grid;gap:12px}.payment-instructions>div{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center}.payment-instructions button{background:none;border:0;color:var(--gold)}.banner img,.package>img{width:100%;height:180px;object-fit:cover;border-radius:14px}.countdown{color:var(--gold);font-size:13px}.modal-backdrop{position:fixed;inset:0;background:#0009;display:grid;place-items:center;padding:20px;z-index:50}.modal{width:min(480px,100%);background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:26px;box-shadow:0 24px 90px #0008}.actions a{display:flex;align-items:center;justify-content:center;min-height:48px;border:1px solid var(--line);border-radius:12px;color:white;text-decoration:none;background:#102b5c}.actions a:hover{border-color:var(--gold);color:var(--gold)}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:6
+.banner-carousel{margin:20px 0;background:linear-gradient(135deg,#123e8c,#0b2048);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 18px 50px #0003}.banner-stage{min-height:300px}.banner-stage>a{display:grid;grid-template-columns:1.35fr 1fr;min-height:300px;color:inherit;text-decoration:none}.banner-media{min-height:300px;background:#0a1b3b;overflow:hidden}.banner-media img{width:100%;height:100%;min-height:300px;object-fit:cover;display:block}.banner-fallback{height:100%;min-height:300px;display:grid;place-items:center;font-weight:900;letter-spacing:.18em;color:var(--gold);background:radial-gradient(circle at 30% 20%,#1d55aa,#081b3a)}.banner-copy{padding:34px;display:flex;flex-direction:column;justify-content:center;gap:10px}.banner-copy h2{font-size:36px;line-height:1.05;margin:0}.banner-copy p{color:var(--muted);line-height:1.65;margin:0}.banner-controls{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-top:1px solid #ffffff12;background:#071a3a}.banner-controls>button{width:40px;height:40px;border:1px solid var(--line);border-radius:50%;background:#102b5c;color:white;font-size:24px}.banner-controls>div{display:flex;gap:7px}.banner-controls .dot{width:8px;height:8px;padding:0;border:0;border-radius:50%;background:#7890b8;opacity:.5}.banner-controls .dot.active{opacity:1;background:var(--gold)}.banner-empty{margin:20px 0;padding:26px;border:1px dashed var(--line);border-radius:18px;display:grid;gap:5px;background:#0b2148}.banner-empty span{color:var(--muted)}.skeleton{min-height:120px;display:grid;place-items:center;color:var(--muted)}.notification-modal{border-top:4px solid var(--gold)}.notification-modal p{line-height:1.7;color:#dce8fb}.modal-actions{display:flex;justify-content:flex-end;gap:10px}.withdrawal-disabled{display:grid;gap:4px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.settings-box{display:grid;gap:10px;padding:18px;border:1px solid #ffffff10;border-radius:14px;background:#091e41}.settings-box h3{margin:0}.settings-form h2{margin-top:12px}.upload-preview{padding:10px;border:1px solid var(--line);border-radius:14px;background:#081b3a}.upload-preview img{width:100%;max-height:220px;object-fit:cover;border-radius:10px}.notification-history .row{grid-template-columns:1fr auto}.list .row button,.list .row a{margin:2px 4px}.list .row button{border:1px solid var(--line);background:#102b5c;color:white;border-radius:8px;padding:7px 10px}.list .row button:hover{border-color:var(--gold);color:var(--gold)}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:9
+.banner-media.broken{display:grid;place-items:center;background:radial-gradient(circle at 30% 20%,#1d55aa,#081b3a)}.banner-media.broken::after{content:'PROMOTION';color:var(--gold);font-weight:900;letter-spacing:.18em}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:14
+.hero{position:relative;overflow:hidden;box-shadow:0 18px 55px #0004}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:15
+.hero:after{content:"";position:absolute;width:260px;height:260px;right:-90px;top:-120px;border-radius:50%;background:#e8bd5814;pointer-events:none}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:18
+.member-id{box-shadow:0 12px 30px #0003;backdrop-filter:blur(8px)}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:20
+.card{position:relative;overflow:hidden;min-height:112px;box-shadow:0 10px 30px #0002;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:22
+.card:hover{transform:translateY(-2px);border-color:#3c66a0;box-shadow:0 16px 38px #0003}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:25
+.panel{box-shadow:0 10px 30px #0002}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:27
+.actions a:hover{transform:translateY(-2px);background:#16366c}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:42
+.team-columns>.panel{position:relative;overflow:hidden;box-shadow:0 12px 32px #0002}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:46
+.team-columns>.panel>p strong{color:#fff}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:49
+.team-columns .row span:last-child{text-align:right;color:#dbe7ff;font-size:13px}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:63
+.package{position:relative;overflow:hidden;box-shadow:0 12px 34px #0002;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:64
+.package:hover{transform:translateY(-3px);border-color:#3c66a0;box-shadow:0 18px 42px #0004}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:65
+.package>img,.package-art{box-shadow:inset 0 0 0 1px #ffffff08}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:70
+.package strong{font-size:25px;color:#f3ce72}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:85
+.deposit-method{position:relative;display:flex;flex-direction:column;gap:9px;padding:22px;border:1px solid #ffffff14;border-radius:18px;background:linear-gradient(145deg,#102b55,#0d2345);box-shadow:0 12px 32px #0003;overflow:hidden}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:86
+.deposit-method:after{content:"";position:absolute;width:130px;height:130px;right:-55px;top:-60px;border-radius:50%;background:#e8bd5812}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:90
+.deposit-method button{align-self:flex-start;border:1px solid #ffffff1c;background:#ffffff08;color:#e8c66f;border-radius:9px;padding:7px 11px;cursor:pointer}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:96
+.deposit-form .form-heading{padding-bottom:8px;border-bottom:1px solid #ffffff10;margin-bottom:6px}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:99
+.deposit-form label{display:flex;flex-direction:column;gap:7px;font-size:13px;font-weight:700;color:#dce8fa}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:118
+.payment-detail-grid>div{display:flex;flex-direction:column;gap:6px;padding:15px;border:1px solid #ffffff10;border-radius:13px;background:#ffffff05}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:122
+.withdrawal-rules span{padding:8px 11px;border-radius:9px;background:#ffffff07;border:1px solid #ffffff0d;color:var(--muted);font-size:12px}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:123
+.withdrawal-rules strong{color:#f3ce72}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:125
+.withdrawal-form .form-heading{padding-bottom:8px;border-bottom:1px solid #ffffff10;margin-bottom:6px}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:128
+.withdrawal-form label{display:flex;flex-direction:column;gap:7px;font-size:13px;font-weight:700;color:#dce8fa}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:131
+.withdrawal-preview>div{padding:14px;border-radius:12px;background:#ffffff05;border:1px solid #ffffff0d}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:183
+box-shadow:0 10px 25px #0003;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:212
+color:#dce8fb;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:252
+radial-gradient(circle at 90% 10%,#1d55aa55,transparent 38%),
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:253
+linear-gradient(135deg,#123e8c,#0b2048);
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:262
+border:1px solid #ffffff12;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:264
+background:#091e41;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:292
+radial-gradient(circle at 100% 0,#1b4f9c33,transparent 35%),
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:293
+rgba(13,36,81,.94);
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:305
+color:#f4f7ff;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:309
+background:rgba(13,36,81,.94);
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:337
+border-bottom:1px solid #ffffff10;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:350
+radial-gradient(circle at 100% 0,#123e8c22,transparent 40%),
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:351
+rgba(13,36,81,.94);
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:359
+background:#ffffff06;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:371
+border-color:#315da0;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:414
+.support-message.member{align-self:flex-start;background:#0d2045}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:415
+.support-message.admin{align-self:flex-end;background:#15345f}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:424
+.support-conversation:hover,.support-conversation.selected{background:#102653}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:441
+background:rgba(10,10,14,.97);
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:442
+border-top:1px solid rgba(212,175,55,.25);
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:443
+box-shadow:0 -12px 35px rgba(0,0,0,.42);
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:456
+color:#8f9098;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:477
+color:#d4af37;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:481
+color:#d4af37;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:482
+background:linear-gradient(180deg,rgba(212,175,55,.17),rgba(212,175,55,.055));
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:483
+box-shadow:inset 0 0 0 1px rgba(212,175,55,.2),0 4px 18px rgba(212,175,55,.1);
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:487
+background:rgba(212,175,55,.14);
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:488
+box-shadow:0 0 16px rgba(212,175,55,.16);
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:514
+border-left:1px solid rgba(212,175,55,.14);
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:515
+border-right:1px solid rgba(212,175,55,.14);
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:525
+.site-disclaimer{margin:0;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:#091e41}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:526
+.site-disclaimer strong{color:#fff}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:528
+.legal-page{width:min(900px,92%);margin:34px auto 0;padding:30px;background:rgba(13,36,81,.92);border:1px solid var(--line);border-radius:20px;box-shadow:0 18px 50px #0003}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:531
+.legal-section{padding:16px 0;border-top:1px solid #ffffff12}
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:545
+--navy: #260800;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:546
+--blue: #681600;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:547
+--gold: #ffca28;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:548
+--panel: #421000;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:549
+--line: #d78b20;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:550
+--muted: #e8c6a2;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:551
+--deep: #210600;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:552
+--royal: #791900;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:553
+--light: #ffb52e;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:554
+--VIP-glow: 0 0 18px #ffb00055, 0 0 38px #ff8c0030;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:558
+background: #210600;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:562
+color: #fff3df;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:564
+radial-gradient(ellipse at 50% 0%, #a33b08 0%, transparent 48%),
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:565
+radial-gradient(ellipse at 0% 80%, #8c2600 0%, transparent 40%),
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:566
+linear-gradient(145deg, #260600, #4b1000 48%, #210500);
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:575
+background: rgba(37, 7, 0, .94);
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:576
+border-bottom: 1px solid #d89528;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:577
+box-shadow: 0 5px 25px #0008;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:583
+color: #fff2d5;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:588
+color: #ffca28;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:597
+radial-gradient(ellipse at 50% 15%, #a33d08 0%, transparent 52%),
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:598
+linear-gradient(145deg, #270600, #591300 55%, #260500);
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:603
+background: linear-gradient(145deg, #6a1c00, #390900 65%, #701b00);
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:604
+border: 2px solid #ffca28;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:607
+0 0 12px #ffce39,
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:608
+0 0 35px #ffae0080,
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:609
+inset 0 0 30px #ff9c001c,
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:610
+0 25px 80px #0009;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:614
+color: #fff4dc;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:622
+background: #400d00;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:623
+color: #fff5e5;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:624
+border: 1.5px solid #d9952b;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:636
+border-color: #ffdc54;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:637
+box-shadow: 0 0 0 2px #ffb00040, 0 0 22px #ffb00055;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:643
+background: linear-gradient(110deg, #ffed75 0%, #ffad00 35%, #f36b00 70%, #ffba19 100%);
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:644
+color: #fff;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:645
+border: 2px solid #fff0a0;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:648
+box-shadow: 0 0 12px #ffca38, 0 0 28px #ff9d0080;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:649
+text-shadow: 0 2px 3px #792500;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:656
+box-shadow: 0 0 18px #ffdc58, 0 0 40px #ff8c00a0;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:663
+color: #ffda68;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:667
+background: linear-gradient(135deg, #8a2900, #4a1000 65%, #721c00);
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:668
+border: 1px solid #e4a12d;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:674
+color: #fff0d6;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:681
+background: linear-gradient(145deg, #581600, #330900);
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:682
+border: 1px solid #b97822;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:683
+box-shadow: 0 12px 35px #0005, inset 0 0 15px #ffb0000a;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:684
+color: #fff0dd;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:688
+background: linear-gradient(#fff18a, #ff9000);
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:689
+box-shadow: 0 0 12px #ffb000;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:694
+color: #ffcf48;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:700
+color: #eac9a5;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:704
+background: linear-gradient(145deg, #681a00, #320900);
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:705
+border: 1px solid #d9932b;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:706
+box-shadow: 0 12px 35px #0006, 0 0 12px #ff9d001a;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:710
+border-color: #ffdb57;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:711
+box-shadow: 0 0 22px #ffad0055;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:715
+background: radial-gradient(circle at 40% 20%, #e77b0b, #721a00 75%);
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:716
+color: #ffe17a;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:717
+border: 1px solid #e7ad35;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:722
+background: linear-gradient(135deg, #851f00, #380a00);
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:723
+border-color: #d9952b;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:727
+background: radial-gradient(circle at 30% 20%, #a94108, #320800);
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:728
+color: #ffcf4d;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:732
+background: linear-gradient(145deg, #681900, #350900);
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:733
+border: 1px solid #d9952b;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:734
+color: #fff0d7;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:735
+box-shadow: 0 5px 18px #0004;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:739
+background: linear-gradient(145deg, #a43800, #571100);
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:740
+border-color: #ffda55;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:741
+color: #ffe28b;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:742
+box-shadow: 0 0 16px #ffac0055;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:746
+background: linear-gradient(145deg, #741e00, #380a00);
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:747
+border-color: #d9952b;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:754
+background: #3c0c00;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:755
+border-color: #a9681d;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:761
+background: #4a1000;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:762
+border-color: #b97926;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:766
+background: rgba(38, 7, 0, .97);
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:767
+border-top: 1px solid #d9952b;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:768
+box-shadow: 0 -5px 25px #0007;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:773
+color: #f5d9ad;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:777
+color: #ffdc55;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:781
+background: #160400d9;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:785
+border: 1.5px solid #ffca28;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:786
+box-shadow: 0 0 30px #ffae0055;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:790
+background: #542000;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:791
+border-color: #d9952b;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:792
+color: #ffe6c1;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:796
+background: #751900;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:797
+border: 1px solid #ff7043;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:803
+color: #ffe4bd;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:809
+color: #ffdb76;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:813
+border-bottom-color: #d9952b30;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:817
+background: #691900;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:818
+border-color: #d9952b;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:822
+border-color: #ffcf4b;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:828
+accent-color: #ffb000;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:832
+background: #ffb000;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:833
+color: #310900;
+
+C:\Users\LENOVO\Downloads\member-platform-fixed-build-patch\finalfix-work\client\src\styles.css:850
+border-color: #bd7a24;

@@ -45,7 +45,7 @@ export async function purchasePackage(
     if(!paymentInput){
       throw new AppError(
         422,
-        'Payment proof is required before NFT purchase submission.'
+        'Payment proof is required before VIP purchase submission.'
       );
     }
 
@@ -122,7 +122,7 @@ export async function purchasePackage(
     if(!Number.isFinite(submittedAmount)||submittedAmount!==total){
       throw new AppError(
         422,
-        `Package payment amount must exactly match the NFT price: ${total}`
+        `Package payment amount must exactly match the VIP price: ${total}`
       );
     }
 
@@ -367,7 +367,7 @@ export async function purchasePackageFromWallet(
       direction: 'debit',
       status: 'completed',
       reference: transactionReference,
-      description: 'NFT package purchased using deposit balance',
+      description: 'VIP package purchased using deposit balance',
       relatedEntity: purchase._id,
       metadata: {packageId: String(p._id), quantity, unitPrice, paymentMethod: 'WALLET_DEPOSIT'}
     }], {session});

@@ -9,7 +9,7 @@ const schema=new Schema({
   startAt:{type:Date,default:null},
   endAt:{type:Date,default:null},
   offerText:{type:String,default:'',maxlength:200},
-  promoType:{type:String,enum:['general','nft','sale'],default:'general'},
+  promoType:{type:String,enum:['general','VIP','sale'],default:'general'},
 },{timestamps:true,strict:true});
 schema.index({active:1,order:1,startAt:1,endAt:1});
 export const Banner=mongoose.models.Banner||model('Banner',schema);

@@ -58,7 +58,7 @@
  .team-columns .row span:last-child{text-align:left}
 }
 
-/* Premium NFT / package UI */
+/* Premium VIP / package UI */
 .package-grid{gap:20px}
 .package{position:relative;overflow:hidden;box-shadow:0 12px 34px #0002;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
 .package:hover{transform:translateY(-3px);border-color:#3c66a0;box-shadow:0 18px 42px #0004}
@@ -551,7 +551,7 @@
   --deep: #210600;
   --royal: #791900;
   --light: #ffb52e;
-  --nft-glow: 0 0 18px #ffb00055, 0 0 38px #ff8c0030;
+  --VIP-glow: 0 0 18px #ffb00055, 0 0 38px #ff8c0030;
 }
 
 html {
@@ -666,7 +666,7 @@ button.primary:hover {
 .hero {
   background: linear-gradient(135deg, #8a2900, #4a1000 65%, #721c00);
   border: 1px solid #e4a12d;
-  box-shadow: var(--nft-glow);
+  box-shadow: var(--VIP-glow);
 }
 
 .hero h1,
@@ -745,7 +745,7 @@ button.primary:hover {
 .deposit-method {
   background: linear-gradient(145deg, #741e00, #380a00);
   border-color: #d9952b;
-  box-shadow: var(--nft-glow);
+  box-shadow: var(--VIP-glow);
 }
 
 .payment-instructions,
@@ -885,7 +885,7 @@ textarea {
 }
 
 .capital-highlight {
-  box-shadow: var(--nft-glow);
+  box-shadow: var(--VIP-glow);
 }
 
 .details .row strong,

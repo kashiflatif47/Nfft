@@ -1,4 +1,4 @@
-# Nexus Member / NFT / Package / Team / Deposit / Withdrawal / Capital Platform
+# Nexus Member / VIP / Package / Team / Deposit / Withdrawal / Capital Platform
 
 A new full-stack TypeScript implementation with separate React/Vite client, Express API, MongoDB/Mongoose persistence, shared schemas, auditable ledger logic, role-based authorization, and mobile-first member UX.
 

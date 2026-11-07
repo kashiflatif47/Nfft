@@ -1,4 +1,4 @@
-﻿import {useEffect,useState} from 'react';
+import {useEffect,useState} from 'react';
 import type {ReactNode,FormEvent} from 'react';
 import {Link,Routes,Route,useNavigate,useParams, NavLink} from 'react-router-dom';
 import {api,setAccessToken,getAccessToken} from './lib/api';
@@ -54,14 +54,14 @@ function Shell({children,title='NEXUS MEMBER'}:{children:ReactNode;title?:string
       </div>
     </header>
     <main className="content">{children}</main>
-    <nav className="bottom"><NavLink to="/" end><span className="nav-icon"><House size={22}/></span><span>Home</span></NavLink><NavLink to="/packages"><span className="nav-icon"><Gem size={22}/></span><span>NFT</span></NavLink><NavLink to="/deposit"><span className="nav-icon"><WalletCards size={22}/></span><span>Deposit</span></NavLink><NavLink to="/withdrawal"><span className="nav-icon"><ArrowUpRight size={22}/></span><span>Withdraw</span></NavLink><NavLink to="/support"><span className="nav-icon"><MessageCircle size={22}/></span><span>Support</span></NavLink><NavLink to="/account"><span className="nav-icon"><UserRound size={22}/></span><span>Account</span></NavLink></nav>
+    <nav className="bottom"><NavLink to="/" end><span className="nav-icon"><House size={22}/></span><span>Home</span></NavLink><NavLink to="/packages"><span className="nav-icon"><Gem size={22}/></span><span>VIP</span></NavLink><NavLink to="/deposit"><span className="nav-icon"><WalletCards size={22}/></span><span>Deposit</span></NavLink><NavLink to="/withdrawal"><span className="nav-icon"><ArrowUpRight size={22}/></span><span>Withdraw</span></NavLink><NavLink to="/support"><span className="nav-icon"><MessageCircle size={22}/></span><span>Support</span></NavLink><NavLink to="/account"><span className="nav-icon"><UserRound size={22}/></span><span>Account</span></NavLink></nav>
   </div>
 }
 function Auth(){const n=useNavigate();const [mode,setMode]=useState<'login'|'register'>('login');const referralFromUrl=new URLSearchParams(location.search).get('ref')?.trim()??'';const [form,setForm]=useState({username:'',password:'',fullName:'',mobile:'',email:'',referralCode:mode==='register'?referralFromUrl:'',jazzCash:'',easypaisa:''});useEffect(()=>{if(mode==='register'&&referralFromUrl)setForm(f=>({...f,referralCode:referralFromUrl.toUpperCase()}));},[mode,referralFromUrl]);const [error,setError]=useState('');const submit=async(e:FormEvent)=>{e.preventDefault();setError('');try{const body=mode==='login'?{username:form.username,password:form.password}:{...form,paymentDetails:{jazzCash:form.jazzCash,easypaisa:form.easypaisa}};const r=await api.post(mode==='login'?'/auth/login':'/auth/register',body);setAccessToken(r.data.data.accessToken);localStorage.setItem('member',JSON.stringify(r.data.data.user));localStorage.setItem('showWhatsappJoinPrompt','1');n('/');}catch(err:any){setError(err?.response?.data?.message??'Request failed')}};return <main className="auth"><div className="auth-card"><div className="brand">NEXUS<span>MEMBER</span></div><h1>{mode==='login'?'Welcome back':'Create your account'}</h1><p className="muted">Secure member workspace with server-authoritative financial data.</p>{error&&<div className="alert">{error}</div>}<form onSubmit={submit}>{mode==='register'&&<><input required placeholder="Full name" value={form.fullName} onChange={e=>setForm({...form,fullName:e.target.value})}/><input required placeholder="Mobile number" value={form.mobile} onChange={e=>setForm({...form,mobile:e.target.value})}/><input required type="email" placeholder="Email" value={form.email} onChange={e=>setForm({...form,email:e.target.value})}/><input placeholder="Referral code" value={form.referralCode} readOnly={Boolean(referralFromUrl)} onChange={e=>setForm({...form,referralCode:e.target.value.toUpperCase()})}/><input placeholder="JazzCash account (optional)" value={form.jazzCash} onChange={e=>setForm({...form,jazzCash:e.target.value})}/><input placeholder="Easypaisa account (optional)" value={form.easypaisa} onChange={e=>setForm({...form,easypaisa:e.target.value})}/></>}<input required placeholder="Username" value={form.username} onChange={e=>setForm({...form,username:e.target.value})}/><input required type="password" minLength={10} placeholder="Password" value={form.password} onChange={e=>setForm({...form,password:e.target.value})}/><button className="primary">{mode==='login'?'Sign in':'Register'}</button></form>{mode==='login'&&<Link className="back-link" to="/forgot-password">Forgot password?</Link>}<button className="link-btn" onClick={()=>setMode(mode==='login'?'register':'login')}>{mode==='login'?'Create a new account':'Already have an account?'}</button></div></main>}
 function Forgot(){const [username,setUsername]=useState(''),[msg,setMsg]=useState('');return <main className="auth"><div className="auth-card"><div className="brand">NEXUS<span>MEMBER</span></div><h1>Reset password</h1><form className="form" onSubmit={async e=>{e.preventDefault();try{await api.post('/security/forgot-password',{username});setMsg('If the account exists, reset instructions were initiated.')}catch(err:any){setMsg(err?.response?.data?.message??'Request failed')}}}><input required placeholder="Username" value={username} onChange={e=>setUsername(e.target.value)}/><button className="primary">Send reset instructions</button></form>{msg&&<div className="notice">{msg}</div>}<Link className="back-link" to="/login">Back to login</Link></div></main>}
 function Reset(){const token=new URLSearchParams(location.search).get('token')??'';const [password,setPassword]=useState(''),[msg,setMsg]=useState('');return <main className="auth"><div className="auth-card"><div className="brand">NEXUS<span>MEMBER</span></div><h1>Choose a new password</h1><form className="form" onSubmit={async e=>{e.preventDefault();try{await api.post('/security/reset-password',{token,newPassword:password});setMsg('Password reset. You can now sign in.')}catch(err:any){setMsg(err?.response?.data?.message??'Reset failed')}}}><input required minLength={10} type="password" placeholder="New password" value={password} onChange={e=>setPassword(e.target.value)}/><button className="primary">Reset password</button></form>{msg&&<div className="notice">{msg}</div>}<Link className="back-link" to="/login">Back to login</Link></div></main>}
 function Dashboard(){const {data,loading,error}=useApi<any>('/members/summary');const [showWhatsapp,setShowWhatsapp]=useState(localStorage.getItem('showWhatsappJoinPrompt')==='1');const {data:banners,loading:bannerLoading}=useApi<any[]>('/content/banners');const {data:notes}=useApi<any[]>('/content/notifications');const {data:publicSettings}=useApi<any>('/content/settings');const member=JSON.parse(localStorage.getItem('member')||'null');return <Shell><section className="hero"><div><span className="eyebrow">MEMBER DASHBOARD</span><h1>Welcome, {data?.user?.username??member?.username??'Member'}</h1><p>Upliner: <strong>{data?.user?.uplinerName??'-'}</strong></p></div><div className="member-id"><small>MEMBER ID</small><strong>{data?.user?.memberId??member?.memberId??'-'}</strong><button onClick={()=>navigator.clipboard.writeText(`${location.origin}/register?ref=${data?.user?.referralCode??member?.referralCode??''}`)}>Copy referral link</button></div></section><BannerCarousel banners={banners??[]} loading={bannerLoading}/>{showWhatsapp&&<div className='modal-backdrop'><div className='modal' style={{maxWidth:480,position:'relative'}}><button type='button' aria-label='Close' onClick={()=>{localStorage.removeItem('showWhatsappJoinPrompt');setShowWhatsapp(false)}} style={{position:'absolute',top:12,right:12,width:36,height:36,padding:0,fontSize:22,lineHeight:1}}>×</button><span className='eyebrow'>WHATSAPP CHANNEL</span><h2>Join our WhatsApp Channel</h2><p className='muted'>Stay updated with the latest announcements, offers and important updates.</p><div className='modal-actions'><a className='primary' href='https://whatsapp.com/channel/0029VbDEDXl1XqudTC6fmS25' target='_blank' rel='noreferrer'>Join WhatsApp Channel</a><button onClick={()=>{localStorage.removeItem('showWhatsappJoinPrompt');setShowWhatsapp(false)}}>I Have Already Joined</button></div></div></div>}{notes?.length?<NotificationPopup note={notes[0]}/>:null}{loading?<p>Loading secure account data...</p>:error?<div className="alert">{error}<button onClick={()=>location.reload()}>Retry</button></div>:<><div className="grid">{[['Total Deposit',data?.wallet?.totalDeposits],['Available',data?.wallet?.available],['Capital locked',data?.wallet?.capitalLocked],['Capital available',data?.wallet?.capitalAvailable],['Profit',data?.wallet?.profit],['Commission',data?.wallet?.commission],['Rewards',data?.wallet?.rewards]].map(([k,v])=><Card key={String(k)} title={String(k)} value={`$${Number(v??0).toFixed(2)}`}/>)}</div><section className="grid team-dashboard-summary"><Card title="Total Team" value={String(data?.team?.total??0)}/><Card title="Team Business" value={`$${Number(data?.team?.totalBusiness??0).toFixed(2)}`}/><Card title="Level 1" value={String(data?.team?.level1?.length??0)}/><Card title="Level 2" value={String(data?.team?.level2?.length??0)}/><Card title="Level 3" value={String(data?.team?.level3?.length??0)}/></section><section className="panel actions"><Link to="/team">Team Details</Link><Link to="/commission">Commission</Link><Link to="/capital">Capital</Link><Link to="/profit">Profit</Link><Link to="/rewards">Rewards</Link><Link to="/transactions">Transactions</Link></section>{(publicSettings?.whatsapp?.enabled||publicSettings?.telegram?.enabled)&&<section className="panel actions">{publicSettings?.whatsapp?.enabled&&<a href="https://whatsapp.com/channel/0029VbDEDXl1XqudTC6fmS25" target="_blank" rel="noreferrer">WhatsApp Channel</a>}{publicSettings?.telegram?.enabled&&<a href="https://t.me/+RzEEUG6MZwY4MTU0" target="_blank" rel="noreferrer">Telegram</a>}</section>}</>}</Shell>}
-function BannerCarousel({banners,loading}:{banners:any[];loading:boolean}){const [index,setIndex]=useState(0);useEffect(()=>{if(banners.length<2)return;const timer=setInterval(()=>setIndex(i=>(i+1)%banners.length),5000);return()=>clearInterval(timer)},[banners.length]);useEffect(()=>{if(index>=banners.length)setIndex(0)},[index,banners.length]);if(loading)return <section className="banner-carousel skeleton"><div>Loading promotions...</div></section>;if(!banners.length)return <section className="banner-empty"><strong>No active promotions</strong><span>Check back soon for new offers.</span></section>;const b=banners[index];const content=<><div className="banner-media">{b.imageUrl?<img key={b._id} src={assetUrl(b.imageUrl)} alt={b.title} onError={e=>{e.currentTarget.style.display='none';e.currentTarget.parentElement?.classList.add('broken')}}/>:<div className="banner-fallback">PROMO</div>}</div><div className="banner-copy"><span className="eyebrow">{b.promoType==='nft'?'NFT':b.promoType==='sale'?'LIMITED SALE':'FEATURED'}</span><h2>{b.title}</h2>{b.description&&<p>{b.description}</p>}{b.offerText&&<strong>{b.offerText}</strong>}</div></>;return <section className="banner-carousel"><div className="banner-stage">{b.destinationUrl?<a href={b.destinationUrl} target="_blank" rel="noreferrer">{content}</a>:content}</div>{banners.length>1&&<div className="banner-controls"><button aria-label="Previous banner" onClick={()=>setIndex((index-1+banners.length)%banners.length)}>&lt;</button><div>{banners.map((x,i)=><button className={i===index?'dot active':'dot'} aria-label={`Banner ${i+1}`} key={x._id} onClick={()=>setIndex(i)} />)}</div><button aria-label="Next banner" onClick={()=>setIndex((index+1)%banners.length)}>&gt;</button></div>}</section>}
+function BannerCarousel({banners,loading}:{banners:any[];loading:boolean}){const [index,setIndex]=useState(0);useEffect(()=>{if(banners.length<2)return;const timer=setInterval(()=>setIndex(i=>(i+1)%banners.length),5000);return()=>clearInterval(timer)},[banners.length]);useEffect(()=>{if(index>=banners.length)setIndex(0)},[index,banners.length]);if(loading)return <section className="banner-carousel skeleton"><div>Loading promotions...</div></section>;if(!banners.length)return <section className="banner-empty"><strong>No active promotions</strong><span>Check back soon for new offers.</span></section>;const b=banners[index];const content=<><div className="banner-media">{b.imageUrl?<img key={b._id} src={assetUrl(b.imageUrl)} alt={b.title} onError={e=>{e.currentTarget.style.display='none';e.currentTarget.parentElement?.classList.add('broken')}}/>:<div className="banner-fallback">PROMO</div>}</div><div className="banner-copy"><span className="eyebrow">{b.promoType==='VIP'?'VIP':b.promoType==='sale'?'LIMITED SALE':'FEATURED'}</span><h2>{b.title}</h2>{b.description&&<p>{b.description}</p>}{b.offerText&&<strong>{b.offerText}</strong>}</div></>;return <section className="banner-carousel"><div className="banner-stage">{b.destinationUrl?<a href={b.destinationUrl} target="_blank" rel="noreferrer">{content}</a>:content}</div>{banners.length>1&&<div className="banner-controls"><button aria-label="Previous banner" onClick={()=>setIndex((index-1+banners.length)%banners.length)}>&lt;</button><div>{banners.map((x,i)=><button className={i===index?'dot active':'dot'} aria-label={`Banner ${i+1}`} key={x._id} onClick={()=>setIndex(i)} />)}</div><button aria-label="Next banner" onClick={()=>setIndex((index+1)%banners.length)}>&gt;</button></div>}</section>}
 function NotificationPopup({note}:{note:any}){const [open,setOpen]=useState(true);const [busy,setBusy]=useState(false);if(!open)return null;const close=async(dismiss:boolean)=>{setBusy(true);try{await api.post(`/content/notifications/${note._id}/${dismiss?'dismiss':'read'}`);setOpen(false)}catch{setOpen(false)}finally{setBusy(false)}};return <div className="modal-backdrop"><div className={`modal notification-modal notification-${note.type??'info'}`} style={{borderTopColor:note.color??'#D4AF37'}}><span className="eyebrow">{note.type??'NOTICE'}</span><h2>{note.title}</h2><p>{note.message}</p><div className="modal-actions"><button className="primary" disabled={busy} onClick={()=>close(!!note.dismissible)}>{busy?'Saving...':note.dismissible?'Dismiss':'Mark as read'}</button></div></div></div>}
 function Deposit(){
   const params=new URLSearchParams(location.search);
@@ -164,7 +164,7 @@ function Deposit(){
 
       setMsg(
         f.depositType==='package'
-          ?'NFT payment proof submitted. Package will activate only after admin verification.'
+          ?'VIP payment proof submitted. Package will activate only after admin verification.'
           :'BEP20 deposit submitted. Balance will be credited only after admin verification.'
       );
     }catch(err:any){
@@ -270,8 +270,8 @@ function Deposit(){
 
     {pendingPackage&&
       <section className="panel">
-        <span className="eyebrow">NFT PAYMENT PENDING</span>
-        <h2>{pendingPackage.packageName??'NFT Package'}</h2>
+        <span className="eyebrow">VIP PAYMENT PENDING</span>
+        <h2>{pendingPackage.packageName??'VIP Package'}</h2>
 
         <div className="grid">
           <Card
@@ -295,7 +295,7 @@ function Deposit(){
         <p>
           Is exact amount ka BEP20 payment bhej kar neeche
           transaction reference aur proof submit karein.
-          Admin approval ke baad hi NFT activate hoga.
+          Admin approval ke baad hi VIP activate hoga.
         </p>
       </section>
     }
@@ -332,7 +332,7 @@ function Deposit(){
           onChange={e=>setF({...f,depositType:e.target.value})}
         >
           <option value="wallet">Wallet deposit</option>
-          <option value="package">NFT / Package payment</option>
+          <option value="package">VIP / Package payment</option>
         </select>
       </label>
 
@@ -425,7 +425,7 @@ function Deposit(){
                     <br/>
                     <small>
                       {d.depositType==='package'
-                        ?'NFT / Package'
+                        ?'VIP / Package'
                         :'Wallet'} · {d.paymentMethod}
                     </small>
                   </span>
@@ -825,22 +825,22 @@ function Deposit(){
 
   return <Shell>
     <PageTitle
-      title={p.name??'NFT Details'}
-      text="Review NFT price, payment and investment schedule."
+      title={p.name??'VIP Details'}
+      text="Review VIP price, payment and investment schedule."
     />
 
     <button
       type="button"
       onClick={onBack}
     >
-      ← Back to NFTs
+      ← Back to VIPs
     </button>
 
     <section className="panel details">
       {p.images?.length?
         <img
           src={assetUrl(p.images[0])}
-          alt={p.name??'NFT'}
+          alt={p.name??'VIP'}
           style={{
             width:'100%',
             maxHeight:320,
@@ -852,7 +852,7 @@ function Deposit(){
         :null}
 
       <h2>{p.name}</h2>
-      <p>{p.description??'NFT investment package'}</p>
+      <p>{p.description??'VIP investment package'}</p>
 
       <div className="grid">
         <Card
@@ -896,7 +896,7 @@ function Deposit(){
       </p>
 
       <div className="notice">
-        Purchase ke baad exact NFT price ka BEP20 payment
+        Purchase ke baad exact VIP price ka BEP20 payment
         Pending verification ke liye create hoga.
         Admin approval ke baad package activate hoga.
       </div>
@@ -913,7 +913,7 @@ function Deposit(){
           ?'Creating payment...'
           :Number(p.remainingQuantity??0)<=0
             ?'Sold Out'
-            :'Buy NFT & Pay by BEP20'}
+            :'Buy VIP & Pay by BEP20'}
       </button>
     </section>
   </Shell>
@@ -944,7 +944,7 @@ function Packages(){
       const purchase=r.data?.data??r.data;
 
       setMsg(
-        'NFT payment created. Ab exact amount BEP20 se pay karke proof submit karein.'
+        'VIP payment created. Ab exact amount BEP20 se pay karke proof submit karein.'
       );
 
       if(purchase?._id){
@@ -954,7 +954,7 @@ function Packages(){
     }catch(err:any){
       setMsg(
         err?.response?.data?.message??
-        'NFT purchase request failed'
+        'VIP purchase request failed'
       );
     }finally{
       setBuying(false);
@@ -996,8 +996,8 @@ function Packages(){
 
   return <Shell>
     <PageTitle
-      title="NFT / Packages"
-      text="Buy an NFT package by exact BEP20 payment and wait for admin verification."
+      title="VIP / Packages"
+      text="Buy an VIP package by exact BEP20 payment and wait for admin verification."
     />
 
     {msg&&
@@ -1038,7 +1038,7 @@ function Packages(){
                   src={assetUrl(p.images[0])}
                   alt={p.name}
                 />
-                :<div className="package-art">NFT</div>}
+                :<div className="package-art">VIP</div>}
 
               <span className="eyebrow">
                 {p.remainingQuantity} LEFT
@@ -1092,7 +1092,7 @@ function Packages(){
                   type="button"
                   onClick={()=>setSelected(p)}
                 >
-                  View NFT
+                  View VIP
                 </button>
 
                 <button
@@ -1115,7 +1115,7 @@ function Packages(){
 
     {pending.length>0&&
       <section className="panel">
-        <h2>Pending NFT Payments</h2>
+        <h2>Pending VIP Payments</h2>
 
         <p className="muted">
           In purchases ka exact payment abhi admin verification
@@ -1130,7 +1130,7 @@ function Packages(){
             >
               <span>
                 <strong>
-                  {p.packageName??'NFT Package'}
+                  {p.packageName??'VIP Package'}
                 </strong>
                 <br/>
                 <small>
@@ -1698,7 +1698,7 @@ function AdminMembers(){
   return <Shell>
     <PageTitle
       title="Deposit management"
-      text="Review BEP20 proofs, NFT package payments and wallet deposits."
+      text="Review BEP20 proofs, VIP package payments and wallet deposits."
     />
 
     <section className="panel form">
@@ -1787,7 +1787,7 @@ function AdminMembers(){
                     {d.paymentMethod}
                     {' · '}
                     {d.depositType==='package'
-                      ?'NFT / Package'
+                      ?'VIP / Package'
                       :'Wallet'}
                   </small>
                 </span>
@@ -1816,7 +1816,7 @@ function AdminMembers(){
                 <span>
                   {d.packagePurchaseId&&
                     <small>
-                      NFT Purchase:<br/>
+                      VIP Purchase:<br/>
                       {String(d.packagePurchaseId)}
                     </small>
                   }
@@ -2403,7 +2403,7 @@ function AdminSettings(){
       <h2>Investment timing controls</h2>
 
       <p className="muted">
-        Yeh values future NFT/package defaults control karti hain.
+        Yeh values future VIP/package defaults control karti hain.
         Existing packages par unki saved settings apply hongi.
       </p>
 
@@ -2492,7 +2492,7 @@ function AdminSettings(){
         />
 
         <p className="muted">
-          Member Deposit aur NFT payment screen par isi
+          Member Deposit aur VIP payment screen par isi
           address ka copy button aur QR show hoga.
         </p>
       </div>
@@ -2885,7 +2885,7 @@ function AdminSettings(){
       }
     </form>
   </Shell>
-}function AdminPackages(){const {data,loading,error}=useApi<any[]>('/admin/packages');const [f,setF]=useState<any>({name:'',description:'',price:'',salePrice:'',quantity:'',active:true,limitedTimeSale:false,startDate:'',endDate:'',investmentDays:90,capitalRecoveryDays:45,profitDurationDays:45,profitPercent:0});const [images,setImages]=useState<File[]>([]),[editing,setEditing]=useState<any>(null),[preview,setPreview]=useState<any>(null),[msg,setMsg]=useState(''),[busy,setBusy]=useState('');const saveImageList=async(p:any,next:string[])=>{setBusy(`images-${p._id}`);try{const r=await api.put(`/admin/packages/${p._id}/images`,{images:next});setPreview(r.data.data);setMsg('Image order updated.')}catch(e:any){setMsg(e?.response?.data?.message??'Image update failed')}finally{setBusy('')}};const removeImage=async(p:any,img:string)=>{if(!window.confirm('Remove this image from the package?'))return;setBusy(`images-${p._id}`);try{const r=await api.delete(`/admin/packages/${p._id}/images`,{data:{image:img}});setPreview(r.data.data);setMsg('Image removed.')}catch(e:any){setMsg(e?.response?.data?.message??'Image removal failed')}finally{setBusy('')}};const moveImage=(p:any,index:number,delta:number)=>{const next=[...(p.images??[])];const target=index+delta;if(target<0||target>=next.length)return;[next[index],next[target]]=[next[target],next[index]];void saveImageList(p,next)};const payload=(x:any)=>({...x,price:Number(x.price),salePrice:x.salePrice?Number(x.salePrice):null,quantity:Number(x.quantity),investmentDays:Number(x.investmentDays||90),capitalRecoveryDays:Number(x.capitalRecoveryDays||45),profitDurationDays:Number(x.profitDurationDays||45),profitPercent:Number(x.profitPercent||0),startDate:x.startDate?new Date(x.startDate).toISOString():null,endDate:x.endDate?new Date(x.endDate).toISOString():null});const reset=()=>{setEditing(null);setImages([]);setF({name:'',description:'',price:'',salePrice:'',quantity:'',active:true,limitedTimeSale:false,startDate:'',endDate:'',investmentDays:90,capitalRecoveryDays:45,profitDurationDays:45,profitPercent:0})};const save=async(e:FormEvent)=>{e.preventDefault();setBusy('save');try{let r=editing?await api.patch(`/admin/packages/${editing._id}`,payload(f)):await api.post('/admin/packages',payload(f));if(images.length){const fd=new FormData();images.forEach(x=>fd.append('images',x));await api.post(`/admin/packages/${r.data.data._id}/images`,fd)}setMsg(editing?'Package updated.':'Package created.');reset();location.reload()}catch(err:any){setMsg(err?.response?.data?.message??'Save failed')}finally{setBusy('')}};const status=async(p:any)=>{setBusy(p._id);try{await api.post(`/admin/packages/${p._id}/status`,{active:!p.active});location.reload()}catch(e:any){setMsg(e?.response?.data?.message??'Status update failed')}finally{setBusy('')}};const inventory=async(p:any)=>{const q=window.prompt('New total quantity',String(p.quantity));if(q==null)return;setBusy(p._id);try{await api.post(`/admin/packages/${p._id}/inventory`,{quantity:Number(q)});location.reload()}catch(e:any){setMsg(e?.response?.data?.message??'Inventory update failed')}finally{setBusy('')}};return <Shell><PageTitle title="Package / NFT management" text="Create, edit, activate, deactivate and manage real package inventory."/><form className="panel form" onSubmit={save}><h2>{editing?'Edit package':'Create package'}</h2><input required placeholder="Name" value={f.name} onChange={e=>setF({...f,name:e.target.value})}/><textarea placeholder="Description" value={f.description} onChange={e=>setF({...f,description:e.target.value})}/><input required type="number" min="0.01" step="0.01" placeholder="Price" value={f.price} onChange={e=>setF({...f,price:e.target.value})}/><input type="number" min="0.01" step="0.01" placeholder="Sale price" value={f.salePrice} onChange={e=>setF({...f,salePrice:e.target.value})}/><input type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={e=>setImages(Array.from(e.target.files??[]))}/><input required type="number" min="0" step="1" placeholder="Quantity" value={f.quantity} onChange={e=>setF({...f,quantity:e.target.value})}/><input required type="number" min="1" step="1" placeholder="Investment days" value={f.investmentDays} onChange={e=>setF({...f,investmentDays:e.target.value})}/><input required type="number" min="0" step="0.01" placeholder="Profit %" value={f.profitPercent} onChange={e=>setF({...f,profitPercent:e.target.value})}/><label>Active <input type="checkbox" checked={!!f.active} onChange={e=>setF({...f,active:e.target.checked})}/></label><label>Limited-time sale <input type="checkbox" checked={!!f.limitedTimeSale} onChange={e=>setF({...f,limitedTimeSale:e.target.checked})}/></label><input type="datetime-local" value={f.startDate} onChange={e=>setF({...f,startDate:e.target.value})}/><input type="datetime-local" value={f.endDate} onChange={e=>setF({...f,endDate:e.target.value})}/><div className="actions"><button className="primary" disabled={busy==='save'}>{busy==='save'?'Saving...':editing?'Update package':'Create package'}</button>{editing&&<button type="button" onClick={reset}>Cancel</button>}</div></form>{msg&&<div className="notice">{msg}</div>}{loading?<p>Loading...</p>:error?<div className="alert">{error}</div>:<section className="panel list"><h2>Packages</h2>{(data??[]).map((p:any)=><div className="row" key={p._id}><span><strong>{p.name}</strong><br/>${Number(p.price).toFixed(2)} {p.salePrice!=null&&`- Sale $${Number(p.salePrice).toFixed(2)}`}</span><span>Total {p.quantity} - Remaining {p.remainingQuantity}</span><span>{p.active?'Active':'Inactive'}</span><span>{p.limitedTimeSale?'Sale':'Standard'}</span><span>{Number(p.investmentDays??90)} days · {Number(p.profitPercent??0)}% profit</span><span><button onClick={()=>setPreview(p)}>Preview</button><button onClick={()=>{setEditing(p);setF({name:p.name,description:p.description??'',price:p.price,salePrice:p.salePrice??'',quantity:p.quantity,investmentDays:p.investmentDays??90,capitalRecoveryDays:p.capitalRecoveryDays??45,profitDurationDays:p.profitDurationDays??45,profitPercent:p.profitPercent??0,active:p.active,limitedTimeSale:p.limitedTimeSale,startDate:p.startDate?new Date(p.startDate).toISOString().slice(0,16):'',endDate:p.endDate?new Date(p.endDate).toISOString().slice(0,16):''})}}>Edit</button><button disabled={busy===p._id} onClick={()=>status(p)}>{p.active?'Deactivate':'Activate'}</button><button onClick={()=>inventory(p)}>Inventory</button></span></div>)}{!(data??[]).length&&<p className="muted">No packages found.</p>}</section>}{preview&&<div className="modal-backdrop"><div className="modal"><h2>{preview.name}</h2><p>{preview.description}</p><p>Price: ${Number(preview.price).toFixed(2)} - Sale: {preview.salePrice!=null?`$${Number(preview.salePrice).toFixed(2)}`:'-'}</p><p>Remaining: {preview.remainingQuantity} / {preview.quantity}</p><h3>Images</h3>{preview.images?.length?preview.images.map((img:string,i:number)=><div className="image-manager-row" key={img}><img src={assetUrl(img)} alt={`${preview.name} ${i+1}`} style={{maxWidth:'180px',borderRadius:12}} onError={e=>e.currentTarget.style.opacity='0.4'}/><span>{i===0?'Primary image':''}</span><button disabled={busy===`images-${preview._id}`} onClick={()=>moveImage(preview,i,-1)}>â†‘</button><button disabled={busy===`images-${preview._id}`} onClick={()=>moveImage(preview,i,1)}>â†“</button><button disabled={busy===`images-${preview._id}`} onClick={()=>removeImage(preview,img)}>Remove</button></div>):<p className="muted">No images configured.</p>}<button onClick={()=>setPreview(null)}>Close</button></div></div>}</Shell>}
+}function AdminPackages(){const {data,loading,error}=useApi<any[]>('/admin/packages');const [f,setF]=useState<any>({name:'',description:'',price:'',salePrice:'',quantity:'',active:true,limitedTimeSale:false,startDate:'',endDate:'',investmentDays:90,capitalRecoveryDays:45,profitDurationDays:45,profitPercent:0});const [images,setImages]=useState<File[]>([]),[editing,setEditing]=useState<any>(null),[preview,setPreview]=useState<any>(null),[msg,setMsg]=useState(''),[busy,setBusy]=useState('');const saveImageList=async(p:any,next:string[])=>{setBusy(`images-${p._id}`);try{const r=await api.put(`/admin/packages/${p._id}/images`,{images:next});setPreview(r.data.data);setMsg('Image order updated.')}catch(e:any){setMsg(e?.response?.data?.message??'Image update failed')}finally{setBusy('')}};const removeImage=async(p:any,img:string)=>{if(!window.confirm('Remove this image from the package?'))return;setBusy(`images-${p._id}`);try{const r=await api.delete(`/admin/packages/${p._id}/images`,{data:{image:img}});setPreview(r.data.data);setMsg('Image removed.')}catch(e:any){setMsg(e?.response?.data?.message??'Image removal failed')}finally{setBusy('')}};const moveImage=(p:any,index:number,delta:number)=>{const next=[...(p.images??[])];const target=index+delta;if(target<0||target>=next.length)return;[next[index],next[target]]=[next[target],next[index]];void saveImageList(p,next)};const payload=(x:any)=>({...x,price:Number(x.price),salePrice:x.salePrice?Number(x.salePrice):null,quantity:Number(x.quantity),investmentDays:Number(x.investmentDays||90),capitalRecoveryDays:Number(x.capitalRecoveryDays||45),profitDurationDays:Number(x.profitDurationDays||45),profitPercent:Number(x.profitPercent||0),startDate:x.startDate?new Date(x.startDate).toISOString():null,endDate:x.endDate?new Date(x.endDate).toISOString():null});const reset=()=>{setEditing(null);setImages([]);setF({name:'',description:'',price:'',salePrice:'',quantity:'',active:true,limitedTimeSale:false,startDate:'',endDate:'',investmentDays:90,capitalRecoveryDays:45,profitDurationDays:45,profitPercent:0})};const save=async(e:FormEvent)=>{e.preventDefault();setBusy('save');try{let r=editing?await api.patch(`/admin/packages/${editing._id}`,payload(f)):await api.post('/admin/packages',payload(f));if(images.length){const fd=new FormData();images.forEach(x=>fd.append('images',x));await api.post(`/admin/packages/${r.data.data._id}/images`,fd)}setMsg(editing?'Package updated.':'Package created.');reset();location.reload()}catch(err:any){setMsg(err?.response?.data?.message??'Save failed')}finally{setBusy('')}};const status=async(p:any)=>{setBusy(p._id);try{await api.post(`/admin/packages/${p._id}/status`,{active:!p.active});location.reload()}catch(e:any){setMsg(e?.response?.data?.message??'Status update failed')}finally{setBusy('')}};const inventory=async(p:any)=>{const q=window.prompt('New total quantity',String(p.quantity));if(q==null)return;setBusy(p._id);try{await api.post(`/admin/packages/${p._id}/inventory`,{quantity:Number(q)});location.reload()}catch(e:any){setMsg(e?.response?.data?.message??'Inventory update failed')}finally{setBusy('')}};return <Shell><PageTitle title="Package / VIP management" text="Create, edit, activate, deactivate and manage real package inventory."/><form className="panel form" onSubmit={save}><h2>{editing?'Edit package':'Create package'}</h2><input required placeholder="Name" value={f.name} onChange={e=>setF({...f,name:e.target.value})}/><textarea placeholder="Description" value={f.description} onChange={e=>setF({...f,description:e.target.value})}/><input required type="number" min="0.01" step="0.01" placeholder="Price" value={f.price} onChange={e=>setF({...f,price:e.target.value})}/><input type="number" min="0.01" step="0.01" placeholder="Sale price" value={f.salePrice} onChange={e=>setF({...f,salePrice:e.target.value})}/><input type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={e=>setImages(Array.from(e.target.files??[]))}/><input required type="number" min="0" step="1" placeholder="Quantity" value={f.quantity} onChange={e=>setF({...f,quantity:e.target.value})}/><input required type="number" min="1" step="1" placeholder="Investment days" value={f.investmentDays} onChange={e=>setF({...f,investmentDays:e.target.value})}/><input required type="number" min="0" step="0.01" placeholder="Profit %" value={f.profitPercent} onChange={e=>setF({...f,profitPercent:e.target.value})}/><label>Active <input type="checkbox" checked={!!f.active} onChange={e=>setF({...f,active:e.target.checked})}/></label><label>Limited-time sale <input type="checkbox" checked={!!f.limitedTimeSale} onChange={e=>setF({...f,limitedTimeSale:e.target.checked})}/></label><input type="datetime-local" value={f.startDate} onChange={e=>setF({...f,startDate:e.target.value})}/><input type="datetime-local" value={f.endDate} onChange={e=>setF({...f,endDate:e.target.value})}/><div className="actions"><button className="primary" disabled={busy==='save'}>{busy==='save'?'Saving...':editing?'Update package':'Create package'}</button>{editing&&<button type="button" onClick={reset}>Cancel</button>}</div></form>{msg&&<div className="notice">{msg}</div>}{loading?<p>Loading...</p>:error?<div className="alert">{error}</div>:<section className="panel list"><h2>Packages</h2>{(data??[]).map((p:any)=><div className="row" key={p._id}><span><strong>{p.name}</strong><br/>${Number(p.price).toFixed(2)} {p.salePrice!=null&&`- Sale $${Number(p.salePrice).toFixed(2)}`}</span><span>Total {p.quantity} - Remaining {p.remainingQuantity}</span><span>{p.active?'Active':'Inactive'}</span><span>{p.limitedTimeSale?'Sale':'Standard'}</span><span>{Number(p.investmentDays??90)} days · {Number(p.profitPercent??0)}% profit</span><span><button onClick={()=>setPreview(p)}>Preview</button><button onClick={()=>{setEditing(p);setF({name:p.name,description:p.description??'',price:p.price,salePrice:p.salePrice??'',quantity:p.quantity,investmentDays:p.investmentDays??90,capitalRecoveryDays:p.capitalRecoveryDays??45,profitDurationDays:p.profitDurationDays??45,profitPercent:p.profitPercent??0,active:p.active,limitedTimeSale:p.limitedTimeSale,startDate:p.startDate?new Date(p.startDate).toISOString().slice(0,16):'',endDate:p.endDate?new Date(p.endDate).toISOString().slice(0,16):''})}}>Edit</button><button disabled={busy===p._id} onClick={()=>status(p)}>{p.active?'Deactivate':'Activate'}</button><button onClick={()=>inventory(p)}>Inventory</button></span></div>)}{!(data??[]).length&&<p className="muted">No packages found.</p>}</section>}{preview&&<div className="modal-backdrop"><div className="modal"><h2>{preview.name}</h2><p>{preview.description}</p><p>Price: ${Number(preview.price).toFixed(2)} - Sale: {preview.salePrice!=null?`$${Number(preview.salePrice).toFixed(2)}`:'-'}</p><p>Remaining: {preview.remainingQuantity} / {preview.quantity}</p><h3>Images</h3>{preview.images?.length?preview.images.map((img:string,i:number)=><div className="image-manager-row" key={img}><img src={assetUrl(img)} alt={`${preview.name} ${i+1}`} style={{maxWidth:'180px',borderRadius:12}} onError={e=>e.currentTarget.style.opacity='0.4'}/><span>{i===0?'Primary image':''}</span><button disabled={busy===`images-${preview._id}`} onClick={()=>moveImage(preview,i,-1)}>â†‘</button><button disabled={busy===`images-${preview._id}`} onClick={()=>moveImage(preview,i,1)}>â†“</button><button disabled={busy===`images-${preview._id}`} onClick={()=>removeImage(preview,img)}>Remove</button></div>):<p className="muted">No images configured.</p>}<button onClick={()=>setPreview(null)}>Close</button></div></div>}</Shell>}
 function AdminNotifications(){
   const {data,loading,error}=useApi<any[]>('/admin/notifications');
   const blank={title:'',message:'',type:'info',color:'#D4AF37',active:true,startAt:'',endAt:'',frequency:'once',repeatIntervalHours:24,dismissible:true};
@@ -2919,10 +2919,10 @@ function AdminBanners(){
   const save=async(e:FormEvent)=>{e.preventDefault();setBusy('save');setMsg('');try{const fd=new FormData();Object.entries(form).forEach(([k,v])=>{if(k!=='image'&&v!==null&&v!==undefined&&v!=='')fd.append(k,String(k==='startAt'||k==='endAt'?new Date(String(v)).toISOString():v))});if(form.image)fd.append('image',form.image);if(editing)await api.patch(`/content/admin/banners/${editing._id}`,fd);else await api.post('/content/admin/banners',fd);setMsg(editing?'Banner updated.':'Banner created.');reset();location.reload()}catch(err:any){setMsg(err?.response?.data?.message??'Save failed')}finally{setBusy('')}};
   const status=async(b:any)=>{setBusy(b._id);try{await api.post(`/content/admin/banners/${b._id}/status`,{active:!b.active});location.reload()}catch(e:any){setMsg(e?.response?.data?.message??'Status update failed')}finally{setBusy('')}};
   const remove=async(b:any)=>{if(!window.confirm(`Delete banner â€œ${b.title}â€?`))return;setBusy(b._id);try{await api.delete(`/content/admin/banners/${b._id}`);location.reload()}catch(e:any){setMsg(e?.response?.data?.message??'Delete failed')}finally{setBusy('')}};
-  return <Shell><PageTitle title="Banner management" text="Manage promotional, NFT and sale banners with scheduling, ordering and secure image uploads."/>
+  return <Shell><PageTitle title="Banner management" text="Manage promotional, VIP and sale banners with scheduling, ordering and secure image uploads."/>
     <form className="panel form" onSubmit={save}>
       <h2>{editing?'Edit banner':'Create banner'}</h2><input required placeholder="Title" value={form.title} onChange={e=>setForm({...form,title:e.target.value})}/><textarea placeholder="Description" value={form.description} onChange={e=>setForm({...form,description:e.target.value})}/><input placeholder="Offer text" value={form.offerText} onChange={e=>setForm({...form,offerText:e.target.value})}/>
-      <div className="form-grid"><select value={form.promoType} onChange={e=>setForm({...form,promoType:e.target.value})}><option value="general">General</option><option value="nft">NFT</option><option value="sale">Sale</option></select><input type="number" min="0" value={form.order} onChange={e=>setForm({...form,order:e.target.value})} placeholder="Display order"/></div>
+      <div className="form-grid"><select value={form.promoType} onChange={e=>setForm({...form,promoType:e.target.value})}><option value="general">General</option><option value="VIP">VIP</option><option value="sale">Sale</option></select><input type="number" min="0" value={form.order} onChange={e=>setForm({...form,order:e.target.value})} placeholder="Display order"/></div>
       <input placeholder="Destination URL (HTTPS/HTTP)" value={form.destinationUrl} onChange={e=>setForm({...form,destinationUrl:e.target.value})}/><div className="form-grid"><input type="datetime-local" value={form.startAt} onChange={e=>setForm({...form,startAt:e.target.value})}/><input type="datetime-local" value={form.endAt} onChange={e=>setForm({...form,endAt:e.target.value})}/></div>
       <input type="file" accept="image/jpeg,image/png,image/webp" onChange={e=>setForm({...form,image:e.target.files?.[0]??null})}/>{form.image&&<div className="upload-preview"><img src={URL.createObjectURL(form.image)} alt="Banner preview"/></div>}{editing?.imageUrl&&!form.image&&<div className="upload-preview"><img src={assetUrl(editing.imageUrl)} alt="Current banner"/></div>}
       <label>Active <input type="checkbox" checked={!!form.active} onChange={e=>setForm({...form,active:e.target.checked})}/></label><div className="actions"><button className="primary" disabled={busy==='save'}>{busy==='save'?'Saving...':editing?'Update banner':'Create banner'}</button>{editing&&<button type="button" onClick={reset}>Cancel</button>}</div>{msg&&<div className="notice">{msg}</div>}

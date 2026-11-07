@@ -1,4 +1,4 @@
-﻿import {purchasePackageFromWallet} from '../services/package.service.js';
+import {purchasePackageFromWallet} from '../services/package.service.js';
 import {Request,Response} from 'express';
 import {audit} from '../services/audit.service.js'; import {ok} from '../utils/api.js'; import {PackageModel} from '../models/Package.js'; import {PackagePurchase} from '../models/PackagePurchase.js'; import {purchasePackage} from '../services/package.service.js'; import {AppError} from '../utils/errors.js';
 export async function listPackagesController(_req:Request,res:Response){return ok(res,await import('../services/package.service.js').then(x=>x.listPackages()));}
@@ -82,7 +82,7 @@ export async function purchaseController(req:Request,res:Response){
         receiptPath
       }
     ),
-    'NFT payment submitted for admin verification',
+    'VIP payment submitted for admin verification',
     201
   );
 }

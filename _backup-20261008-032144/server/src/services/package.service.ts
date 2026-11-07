@@ -16,7 +16,7 @@ export async function matureDuePackages(){
         amount:purchase.payoutAmount,
         direction:'credit',
         reference:`PKG-MATURE-${purchase._id}`,
-        description:'NFT package investment matured',
+        description:'VIP package investment matured',
         relatedEntity:purchase._id,
         metadata:{
           packageId:purchase.packageId.toString(),

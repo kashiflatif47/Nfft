@@ -1,4 +1,4 @@
-﻿import mongoose from 'mongoose';
+import mongoose from 'mongoose';
 import {PackageModel} from '../models/Package.js';
 import {PackagePurchase} from '../models/PackagePurchase.js';
 import {Deposit} from '../models/Deposit.js';
@@ -202,8 +202,8 @@ export async function purchasePackage(
         userId,
         amount:total,
         paymentMethod,
-        reference:generateReference('NFT'),
-        details:`NFT/package payment for ${p.name}`,
+        reference:generateReference('VIP'),
+        details:`VIP/package payment for ${p.name}`,
         depositType:'package',
         packagePurchaseId:purchase._id,
         status:'pending'
@@ -317,7 +317,7 @@ export async function matureDuePackages(){
         amount:purchase.payoutAmount,
         direction:'credit',
         reference:`PKG-MATURE-${purchase._id}`,
-        description:'NFT package investment matured',
+        description:'VIP package investment matured',
         relatedEntity:purchase._id,
         metadata:{
           packageId:purchase.packageId.toString(),
