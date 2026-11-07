@@ -1180,3 +1180,65 @@ body {
     background: #260800 !important;
 }
 /* END ZIVOPLUS BANNER MEDIA FINAL FIX */
+
+/* FINAL ORIGINAL GOLDEN MAROON THEME OVERRIDE */
+:root {
+  --navy: #260800;
+  --blue: #681600;
+  --royal: #791900;
+  --deep: #210600;
+  --panel: #421000;
+  --line: #d78b20;
+  --gold: #ffca28;
+  --light: #ffb52e;
+  --muted: #e8c6a2;
+  --VIP-glow: 0 0 18px #ffb00055, 0 0 38px #ff8c0030;
+}
+
+.banner-carousel,
+.capital-highlight {
+  background: linear-gradient(135deg, #681600, #260800) !important;
+}
+
+.banner-media.broken {
+  background: radial-gradient(circle at 30% 20%, #791900, #260800) !important;
+}
+
+.card:hover,
+.package:hover {
+  border-color: #d78b20 !important;
+}
+
+.actions a:hover {
+  background: #791900 !important;
+}
+
+.security-note,
+.site-disclaimer {
+  background: #421000 !important;
+}
+
+.details,
+.actions,
+.notification-history {
+  background: linear-gradient(135deg, #581600, #330900) !important;
+}
+
+.support-message.member {
+  background: #421000 !important;
+}
+
+.support-message.admin {
+  background: #681600 !important;
+}
+
+.support-conversation:hover,
+.support-conversation.selected {
+  background: #581600 !important;
+}
+
+.legal-page {
+  background: rgba(38, 8, 0, .96) !important;
+}
+
+/* END FINAL ORIGINAL GOLDEN MAROON THEME OVERRIDE */
