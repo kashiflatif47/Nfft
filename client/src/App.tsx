@@ -1,4 +1,4 @@
-import {useEffect,useState} from 'react';
+﻿import {useEffect,useState} from 'react';
 import type {ReactNode,FormEvent} from 'react';
 import {Link,Routes,Route,useNavigate,useParams, NavLink} from 'react-router-dom';
 import {api,setAccessToken,getAccessToken} from './lib/api';
@@ -44,7 +44,7 @@ function Shell({children,title='ZivoPlus'}:{children:ReactNode;title?:string}){
 
   return <div className="shell">
     {impersonation&&<div className="notice" style={{margin:0,borderRadius:0,display:'flex',justifyContent:'space-between',alignItems:'center',gap:12}}>
-      <span><strong>IMPERSONATING:</strong> {member?.username??'Member'} Ã¢â‚¬â€ admin actions are disabled in this session.</span>
+      <span><strong>IMPERSONATING:</strong> {member?.username??'Member'} ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â admin actions are disabled in this session.</span>
       <button onClick={returnToAdmin}>Return to Admin</button>
     </div>}
     <header>
@@ -2224,13 +2224,13 @@ function AdminMembers(){
                 <span>
                   <strong>{w.paymentMethod}</strong>
                   <br/>
-                  {w.paymentMethod==='BEP20'
-                    ?<small style={{wordBreak:'break-all'}}>
-                      {w.paymentAccount}
+                  <small style={{wordBreak:'break-all'}}>
+                      Account: {w.paymentAccount||'Not available'}
                     </small>
-                    :<small>
-                      ****{String(w.paymentAccount??'').slice(-4)}
-                    </small>}
+                    <br/>
+                    <small>Platform: {w.paymentMethod||'Not specified'}</small>
+                    <br/>
+                    <small>Account Holder: {w.accountHolderName||w.accountTitle||'-'}</small>
                 </span>
 
                 <span>
@@ -3140,5 +3140,6 @@ const legalCopy:Record<LegalKind,LegalPageCopy>={
 function SiteFooter(){return <footer className="site-footer"><div className="site-footer-links"><Link to="/privacy-policy">Privacy Policy</Link><Link to="/terms-and-conditions">Terms &amp; Conditions</Link><Link to="/risk-disclosure">Risk Disclosure</Link><Link to="/contact-us">Contact Us</Link></div><p className="site-disclaimer"><strong>Disclaimer:</strong> This platform provides account, package, transaction, balance, commission, reward and withdrawal-related features. Information on this website is not financial advice. Cryptocurrency and digital-asset activities are volatile and high-risk and may result in loss. Review the applicable terms and transaction conditions before proceeding.</p><p className="site-copyright">(c) {new Date().getFullYear()} ZivoPlus. All rights reserved.</p></footer>}
 function LegalPage({kind}:{kind:LegalKind}){const page=legalCopy[kind];return <main className="legal-page"><Link className="legal-home" to="/">Back to ZivoPlus</Link><span className="eyebrow">ZivoPlus - SITE INFORMATION</span><h1>{page.title}</h1><p className="legal-intro">{page.intro}</p>{page.sections.map(section=><section className="legal-section" key={section.heading}><h2>{section.heading}</h2><p>{section.body}</p></section>)}</main>}
 export default function App(){return <><Routes><Route path="/privacy-policy" element={<LegalPage kind="privacy-policy"/>}/><Route path="/terms-and-conditions" element={<LegalPage kind="terms-and-conditions"/>}/><Route path="/risk-disclosure" element={<LegalPage kind="risk-disclosure"/>}/><Route path="/disclaimer" element={<LegalPage kind="risk-disclosure"/>}/><Route path="/contact-us" element={<LegalPage kind="contact-us"/>}/><Route path="/login" element={<Auth/>}/><Route path="/register" element={<Auth/>}/><Route path="/forgot-password" element={<Forgot/>}/><Route path="/reset-password" element={<Reset/>}/><Route path="/" element={<Protected><Dashboard/></Protected>}/><Route path="/packages" element={<Protected><Packages/></Protected>}/><Route path="/active-packages" element={<Protected><ActivePackages/></Protected>}/><Route path="/deposit" element={<Protected><Deposit/></Protected>}/><Route path="/withdrawal" element={<Protected><Withdrawal/></Protected>}/><Route path="/team" element={<Protected><Team/></Protected>}/><Route path="/commission" element={<Protected><Commission/></Protected>}/><Route path="/account" element={<Protected><Account/></Protected>}/><Route path="/support" element={<Protected><Support/></Protected>}/><Route path="/payment-details" element={<Protected><PaymentDetails/></Protected>}/><Route path="/security" element={<Protected><Security/></Protected>}/><Route path="/transactions" element={<Protected><Transactions/></Protected>}/><Route path="/notifications" element={<Protected><Notifications/></Protected>}/><Route path="/capital" element={<Protected><Capital/></Protected>}/><Route path="/profit" element={<Protected><Profit/></Protected>}/><Route path="/rewards" element={<Protected><Rewards/></Protected>}/><Route path="/admin" element={<Protected admin><Admin/></Protected>}/><Route path="/admin/members" element={<Protected admin><AdminMembers/></Protected>}/><Route path="/admin/support" element={<Protected admin><AdminSupport/></Protected>}/><Route path="/admin/members/:id" element={<Protected admin><AdminMemberDetail/></Protected>}/><Route path="/admin/ledger" element={<Protected admin><AdminTable type="ledger"/></Protected>}/><Route path="/admin/audit" element={<Protected admin><AdminTable type="audit"/></Protected>}/><Route path="/admin/admins" element={<Protected superAdmin><AdminTable type="admins"/></Protected>}/><Route path="/admin/payment-requests" element={<Protected admin><AdminTable type="payment"/></Protected>}/><Route path="/admin/settings" element={<Protected admin><AdminSettings/></Protected>}/><Route path="/admin/finance" element={<Protected admin><AdminFinance/></Protected>}/><Route path="/admin/deposits" element={<Protected admin><AdminDeposits/></Protected>}/><Route path="/admin/withdrawals" element={<Protected admin><AdminWithdrawals/></Protected>}/><Route path="/admin/packages" element={<Protected admin><AdminPackages/></Protected>}/><Route path="/admin/notifications" element={<Protected admin><AdminNotifications/></Protected>}/><Route path="/admin/banners" element={<Protected admin><AdminBanners/></Protected>}/></Routes><SiteFooter/></>}
+
 
 
